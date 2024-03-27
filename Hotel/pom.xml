@@ -25,6 +25,11 @@
 
     <dependencies>
         <!-- Add your dependencies here! -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.10.13</version>
+        </dependency>
     </dependencies>
 
 </project>

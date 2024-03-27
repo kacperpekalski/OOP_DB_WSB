@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class RoomReservation {
     private LocalDate date;
     private Client client;
@@ -12,35 +14,43 @@ public class RoomReservation {
     }
 
     public LocalDate getDate() {
+
         return date;
     }
 
     public void setDate(LocalDate date) {
+
         this.date = date;
     }
 
     public Client getClient() {
+
         return client;
     }
 
     public void setClient(Client client) {
+
         this.client = client;
     }
 
     public Room getRoom() {
+
         return room;
     }
 
     public void setRoom(Room room) {
+
         this.room = room;
     }
 
     public boolean isConfirmed() {
+
         return isConfirmed;
     }
 
     public void confirmReservation() {
-        this.isConfirmed = true
+
+        this.isConfirmed = true;
     }
 
 }
