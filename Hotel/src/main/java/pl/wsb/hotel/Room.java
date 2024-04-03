@@ -1,3 +1,5 @@
+package pl.wsb.hotel;
+
 public class Room {
     private String id;
     private double area;

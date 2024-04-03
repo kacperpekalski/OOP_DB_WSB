@@ -1,3 +1,5 @@
+package pl.wsb.hotel;
+
 import java.time.LocalDate;
 
 public class RoomReservation {
