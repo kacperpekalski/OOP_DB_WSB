@@ -8,6 +8,10 @@ public class Main
     public static void main(String[] args)
     {
         // Utworzenie klientów
+
+        // Konstruktor prosty
+        Client prosty = new Client("00", "Jerzy", "Prosty", LocalDate.of(1975, 2, 14));
+        // Konstruktor rozszerzony
         Client kowalski = new Client("01","Janusz","Kowalski",LocalDate.of(2000,4,23),true,"M","+48666999666","Janusz.Kow@gmail.com");
         Client brzeczyszczykiewicz = new Client("03","Adam","Brzeczyszczykiewicz",LocalDate.of(2004,4,23),true,"M","+48888999888","Adam.Brze@gmail.com");
 
@@ -40,6 +44,20 @@ public class Main
 
         // Testy metod klasy Client
 
+        // Klient utworzony konstruktorem prostym
+        System.out.println(prosty.getId());
+        System.out.println(prosty.getFirstName());
+        System.out.println(prosty.getLastName());
+        System.out.println(prosty.getFullName());
+        System.out.println(prosty.getBirthDate());
+        System.out.println(prosty.getAge());
+        // Pola o wartości domyślnej (null)
+        System.out.println(prosty.getSmoker());
+        System.out.println(prosty.getGender());
+        System.out.println(prosty.getNumber());
+        System.out.println(prosty.getEmail());
+
+        // Klient utworzony konstruktorem rozszerzonym
         System.out.println(kowalski.getId());
         System.out.println(kowalski.getFirstName());
         System.out.println(kowalski.getLastName());

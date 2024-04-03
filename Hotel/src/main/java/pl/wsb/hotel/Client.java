@@ -20,7 +20,6 @@ public class Client {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
-
     }
     
     public Client(String id, String firstName, String lastName, LocalDate birthDate, Boolean smoker, String gender, String number, String email)
