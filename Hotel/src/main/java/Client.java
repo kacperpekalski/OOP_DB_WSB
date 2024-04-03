@@ -7,11 +7,32 @@ public class Client {
     private String lastName;
     private LocalDate birthDate;
     // Pola dodane przez nas
-    private boolean smoker;
+    private Boolean smoker;
     private String gender;
     private String number;
     private String Email;
 
+    public Client(String id, String firstName, String lastName, LocalDate birthDate)
+    {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+
+    }
+    
+    public Client(String id, String firstName, String lastName, LocalDate birthDate, Boolean smoker, String gender, String number, String email)
+    {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.smoker = smoker;
+        this.gender = gender;
+        this.number = number;
+        this.Email = email;
+    }
+    
     public String getId() {
 
         return id;
@@ -66,7 +87,7 @@ public class Client {
         this.smoker = smoke;
     }
 
-    public boolean getSmoker() {
+    public Boolean getSmoker() {
         return smoker;
     }
 
