@@ -6,8 +6,11 @@ public class Client {
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
-    // 3- 5 dodatkowych pól, nieujętch na diagramie klas
-
+    // Pola dodane przez nas
+    private boolean smoker;
+    private String gender;
+    private String number;
+    private String Email;
 
     public String getId() {
 
@@ -58,5 +61,36 @@ public class Client {
     public String getFullName() {
 
         return firstName + " " + lastName;
+    }
+    public void setSmoker(boolean smoke) {
+        this.smoker = smoke;
+    }
+
+    public boolean getSmoker() {
+        return smoker;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setEmail(String email) {
+        this.Email = email;
+    }
+
+    public String getEmail() {
+        return Email;
     }
 }
