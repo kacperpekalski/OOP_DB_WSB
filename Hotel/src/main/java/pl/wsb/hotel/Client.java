@@ -12,7 +12,7 @@ public class Client {
     private Boolean smoker;
     private String gender;
     private String number;
-    private String Email;
+    private String email;
 
     public Client(String id, String firstName, String lastName, LocalDate birthDate)
     {
@@ -32,7 +32,7 @@ public class Client {
         this.smoker = smoker;
         this.gender = gender;
         this.number = number;
-        this.Email = email;
+        this.email = email;
     }
     
     public String getId() {
@@ -110,10 +110,10 @@ public class Client {
     }
 
     public void setEmail(String email) {
-        this.Email = email;
+        this.email = email;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 }

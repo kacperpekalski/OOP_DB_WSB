@@ -7,14 +7,14 @@ public class Main
 
     public static void main(String[] args)
     {
-        //Utworzenie klientów
+        // Utworzenie klientów
         Client kowalski = new Client("01","Janusz","Kowalski",LocalDate.of(2000,4,23),true,"M","+48666999666","Janusz.Kow@gmail.com");
         Client brzeczyszczykiewicz = new Client("03","Adam","Brzeczyszczykiewicz",LocalDate.of(2004,4,23),true,"M","+48888999888","Adam.Brze@gmail.com");
 
-        //Utworzenie pokojów
+        // Utworzenie pokojów
         Room room1 = new Room("12",23.5,2,true,true,false,true);
         Room room2 = new Room("13",23.5,2,true,true,false,true);
-        //Dokonanie rezerwacji przez klienta kowalski na pokój room1
+        // Dokonanie rezerwacji przez klienta kowalski na pokój room1
         RoomReservation roomReservation_12 = new RoomReservation(LocalDate.now(),kowalski,room1);
 
         // Test metod klasy RoomReservation
@@ -74,7 +74,7 @@ public class Main
         System.out.println(kowalski.getEmail());
 
         System.out.println("------------");
-        //Test metod klasy Room
+        // Test metod klasy Room
 
         System.out.println(room1.getId());
         System.out.println(room1.getArea());
