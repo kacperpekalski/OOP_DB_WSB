@@ -1,0 +1,1 @@
+Sample code. Ideal to get familiar with Java basics.
