@@ -1,5 +1,9 @@
 package pl.wsb.hotel;
 
+import pl.wsb.hotel.client.Client;
+import pl.wsb.hotel.room.Room;
+import pl.wsb.hotel.room.RoomReservation;
+
 import java.time.LocalDate;
 
 public class Main
