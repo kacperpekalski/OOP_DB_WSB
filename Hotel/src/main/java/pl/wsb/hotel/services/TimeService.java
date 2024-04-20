@@ -26,5 +26,20 @@ public class TimeService extends SpecialService {
             // message that price has been updated
             System.out.println("Price has been updated");
         }
+        @Override
+        public double checkPrice()
+        {
+            return price;
+        }
 
+        @Override
+        public void updateDescription(String newDescription)
+        {
+            description = newDescription;
+        }
+        @Override
+        public String getDescription()
+        {
+            return description;
+        }
 }
