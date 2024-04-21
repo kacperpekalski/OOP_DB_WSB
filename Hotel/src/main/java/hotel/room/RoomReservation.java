@@ -1,7 +1,7 @@
-package pl.wsb.hotel.room;
+package hotel.room;
 
-import pl.wsb.hotel.client.Client;
-import pl.wsb.hotel.room.Room;
+import hotel.client.Client;
+import hotel.room.Room;
 
 import java.time.LocalDate;
 

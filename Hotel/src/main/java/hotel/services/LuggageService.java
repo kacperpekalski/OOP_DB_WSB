@@ -1,4 +1,4 @@
-package pl.wsb.hotel.services;
+package hotel.services;
 
 public class LuggageService extends SpecialService {
     protected LuggageService(String name, double price) {

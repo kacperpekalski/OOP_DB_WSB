@@ -1,7 +1,7 @@
-package pl.wsb.hotel.services;
+package hotel.services;
 
 
-import pl.wsb.hotel.services.SpecialService;
+import hotel.services.SpecialService;
 
 public class TimeService extends SpecialService {
 
