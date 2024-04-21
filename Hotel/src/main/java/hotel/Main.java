@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 public class Main
 {
-
     public static void main(String[] args)
     {
         // Utworzenie klientów
@@ -127,4 +126,3 @@ public class Main
         System.out.println("------------");
     }
 }
-

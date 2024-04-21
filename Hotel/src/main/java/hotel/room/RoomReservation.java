@@ -1,7 +1,6 @@
 package hotel.room;
 
 import hotel.client.Client;
-import hotel.room.Room;
 
 import java.time.LocalDate;
 

@@ -13,14 +13,9 @@ public abstract class SpecialService {
     }
 
     public abstract void orderService();
-
     public abstract void checkAvailability();
-
     public abstract void updatePrice(double newPrice);
-
     public abstract double checkPrice();
-
     public abstract void updateDescription(String newDescription);
-
     public abstract String getDescription();
 }

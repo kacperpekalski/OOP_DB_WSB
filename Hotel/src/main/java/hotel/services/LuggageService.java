@@ -22,6 +22,7 @@ public class LuggageService extends SpecialService {
         // message that price has been updated
         System.out.println("Price has been updated");
     }
+
     @Override
     public double checkPrice()
     {
@@ -33,6 +34,7 @@ public class LuggageService extends SpecialService {
     {
         this.description = newDescription;
     }
+
     @Override
     public String getDescription()
     {

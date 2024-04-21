@@ -1,5 +1,6 @@
 package hotel.client;
 
 public enum PremiumClientType {
-    PREMIUM, PREMIUM_PLUS
+    PREMIUM,
+    PREMIUM_PLUS,
 }

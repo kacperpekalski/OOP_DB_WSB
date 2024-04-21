@@ -1,10 +1,6 @@
 package hotel.services;
 
-
-import hotel.services.SpecialService;
-
 public class TimeService extends SpecialService {
-
         protected TimeService(String name, double price) {
                 super(name, price);
         }
@@ -26,6 +22,7 @@ public class TimeService extends SpecialService {
             // message that price has been updated
             System.out.println("Price has been updated");
         }
+
         @Override
         public double checkPrice()
         {
@@ -37,6 +34,7 @@ public class TimeService extends SpecialService {
         {
             description = newDescription;
         }
+
         @Override
         public String getDescription()
         {
