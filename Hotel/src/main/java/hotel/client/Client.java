@@ -4,114 +4,103 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Client {
-    private String id;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthDate;
-    private Boolean smoker;
-    private String gender;
-    private String number;
-    private String email;
+  private String id;
+  private String firstName;
+  private String lastName;
+  private LocalDate birthDate;
+  private Boolean smoker;
+  private String gender;
+  private String number;
+  private String email;
 
-    public Client(String id, String firstName, String lastName, LocalDate birthDate)
-    {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-    }
-    
-    public Client(String id, String firstName, String lastName, LocalDate birthDate, Boolean smoker, String gender, String number, String email)
-    {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.smoker = smoker;
-        this.gender = gender;
-        this.number = number;
-        this.email = email;
-    }
-    
-    public String getId() {
+  public Client(String id, String firstName, String lastName, LocalDate birthDate) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthDate = birthDate;
+  }
 
-        return id;
-    }
+  public Client(String id, String firstName, String lastName, LocalDate birthDate, Boolean smoker,
+      String gender, String number, String email) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthDate = birthDate;
+    this.smoker = smoker;
+    this.gender = gender;
+    this.number = number;
+    this.email = email;
+  }
 
-    public void setId(String id) {
+  public String getId() {
+    return id;
+  }
 
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getFirstName() {
+  public String getFirstName() {
+    return firstName;
+  }
 
-        return firstName;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public void setFirstName(String firstName) {
+  public String getLastName() {
+    return lastName;
+  }
 
-        this.firstName = firstName;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public String getLastName() {
+  public LocalDate getBirthDate() {
+    return birthDate;
+  }
 
-        return lastName;
-    }
+  public void setBirthDate(LocalDate birthDate) {
+    this.birthDate = birthDate;
+  }
 
-    public void setLastName(String lastName) {
+  public int getAge() {
+    LocalDate currentDate = LocalDate.now();
+    return Period.between(birthDate, currentDate).getYears();
+  }
 
-        this.lastName = lastName;
-    }
+  public String getFullName() {
+    return firstName + " " + lastName;
+  }
+  public void setSmoker(boolean smoke) {
+    this.smoker = smoke;
+  }
 
-    public LocalDate getBirthDate() {
+  public Boolean getSmoker() {
+    return smoker;
+  }
 
-        return birthDate;
-    }
+  public void setGender(String gender) {
+    this.gender = gender;
+  }
 
-    public void setBirthDate(LocalDate birthDate) {
+  public String getGender() {
+    return gender;
+  }
 
-        this.birthDate = birthDate;
-    }
+  public void setNumber(String number) {
+    this.number = number;
+  }
 
-    public int getAge() {
+  public String getNumber() {
+    return number;
+  }
 
-        LocalDate currentDate = LocalDate.now();
-        return Period.between(birthDate, currentDate).getYears();
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getFullName() {
-
-        return firstName + " " + lastName;
-    }
-    public void setSmoker(boolean smoke) {
-        this.smoker = smoke;
-    }
-
-    public Boolean getSmoker() {
-        return smoker;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 }
