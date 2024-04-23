@@ -7,17 +7,17 @@ public class Room {
   private boolean hasKingSizeBed;
   private boolean hasBalcony;
   private boolean hasSafe;
-  private boolean hasTV;
+  private boolean hasTv;
 
   public Room(String id, double area, int floor, boolean hasKingSizeBed, boolean hasBalcony,
-      boolean hasSafe, boolean hasTV) {
+      boolean hasSafe, boolean hasTv) {
     this.id = id;
     this.area = area;
     this.floor = floor;
     this.hasKingSizeBed = hasKingSizeBed;
     this.hasBalcony = hasBalcony;
     this.hasSafe = hasSafe;
-    this.hasTV = hasTV;
+    this.hasTv = hasTv;
   }
 
   public String getId() {
@@ -68,11 +68,11 @@ public class Room {
     this.hasSafe = hasSafe;
   }
 
-  public boolean hasTV() {
-    return hasTV;
+  public boolean hasTv() {
+    return hasTv;
   }
 
-  public void setHasTV(boolean hasTV) {
-    this.hasTV = hasTV;
+  public void setHasTV(boolean hasTv) {
+    this.hasTv = hasTv;
   }
 }

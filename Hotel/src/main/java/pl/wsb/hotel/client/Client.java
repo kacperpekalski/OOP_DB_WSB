@@ -76,7 +76,7 @@ public class Client {
     this.smoker = smoke;
   }
 
-  public Boolean getSmoker() {
+  public Boolean isSmoker() {
     return smoker;
   }
 

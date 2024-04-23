@@ -1,14 +1,24 @@
 package pl.wsb.hotel.services;
 
 public class LuggageService extends SpecialService {
-  protected LuggageService(String name, double price, String description) {
-    super(name, price, description);
+  public LuggageService(String name, double price) {
+    super(name, price);
   }
 
   @Override
   public void orderService() {
     // message stating that the hotel is storing client's luggage
     System.out.println("The hotel is storing your luggage");
+  }
+
+  @Override
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String getName() {
+    return name;
   }
 
   @Override
@@ -19,15 +29,5 @@ public class LuggageService extends SpecialService {
   @Override
   public double getPrice() {
     return price;
-  }
-
-  @Override
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  @Override
-  public String getDescription() {
-    return description;
   }
 }
