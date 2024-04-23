@@ -1,7 +1,7 @@
 package pl.wsb.hotel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import pl.wsb.hotel.client.Client;
 import pl.wsb.hotel.room.Room;
 import pl.wsb.hotel.room.RoomReservation;
@@ -9,18 +9,18 @@ import pl.wsb.hotel.services.SpecialService;
 
 public class Hotel {
   private String name;
-  private final List<SpecialService> specialServices;
-  private final List<Client> clients;
-  private final List<RoomReservation> reservations;
-  private final List<Room> rooms;
+  private final Set<SpecialService> specialServices;
+  private final Set<Client> clients;
+  private final Set<RoomReservation> reservations;
+  private final Set<Room> rooms;
 
   public Hotel(String name) {
     this.name = name;
 
-    this.specialServices = new ArrayList<>();
-    this.clients = new ArrayList<>();
-    this.reservations = new ArrayList<>();
-    this.rooms = new ArrayList<>();
+    this.specialServices = new HashSet<>();
+    this.clients = new HashSet<>();
+    this.reservations = new HashSet<>();
+    this.rooms = new HashSet<>();
   }
 
   // getters and setters for all fields
@@ -32,7 +32,7 @@ public class Hotel {
     this.name = name;
   }
 
-  public List<SpecialService> getSpecialServices() {
+  public Set<SpecialService> getSpecialServices() {
     return specialServices;
   }
 
@@ -60,7 +60,7 @@ public class Hotel {
     this.specialServices.remove(service);
   }
 
-  public List<Client> getClients() {
+  public Set<Client> getClients() {
     return clients;
   }
 
@@ -88,7 +88,7 @@ public class Hotel {
     this.clients.remove(client);
   }
 
-  public List<RoomReservation> getReservations() {
+  public Set<RoomReservation> getReservations() {
     return reservations;
   }
 
@@ -116,7 +116,7 @@ public class Hotel {
     this.reservations.remove(reservation);
   }
 
-  public List<Room> getRooms() {
+  public Set<Room> getRooms() {
     return rooms;
   }
 
