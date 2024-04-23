@@ -99,10 +99,10 @@ public class Main {
     System.out.println(room1.getId());
     System.out.println(room1.getArea());
     System.out.println(room1.getFloor());
-    System.out.println(room1.isHasBalcony());
-    System.out.println(room1.isHasSafe());
-    System.out.println(room1.isHasKingSizeBed());
-    System.out.println(room1.isHasTV());
+    System.out.println(room1.hasBalcony());
+    System.out.println(room1.hasSafe());
+    System.out.println(room1.hasKingSizeBed());
+    System.out.println(room1.hasTV());
 
     System.out.println("------------");
 
@@ -117,10 +117,10 @@ public class Main {
     System.out.println(room1.getId());
     System.out.println(room1.getArea());
     System.out.println(room1.getFloor());
-    System.out.println(room1.isHasBalcony());
-    System.out.println(room1.isHasSafe());
-    System.out.println(room1.isHasKingSizeBed());
-    System.out.println(room1.isHasTV());
+    System.out.println(room1.hasBalcony());
+    System.out.println(room1.hasSafe());
+    System.out.println(room1.hasKingSizeBed());
+    System.out.println(room1.hasTV());
 
     System.out.println("------------");
   }

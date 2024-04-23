@@ -45,7 +45,7 @@ public class Room {
     this.floor = floor;
   }
 
-  public boolean isHasKingSizeBed() {
+  public boolean hasKingSizeBed() {
     return hasKingSizeBed;
   }
 
@@ -53,7 +53,7 @@ public class Room {
     this.hasKingSizeBed = hasKingSizeBed;
   }
 
-  public boolean isHasBalcony() {
+  public boolean hasBalcony() {
     return hasBalcony;
   }
 
@@ -61,7 +61,7 @@ public class Room {
     this.hasBalcony = hasBalcony;
   }
 
-  public boolean isHasSafe() {
+  public boolean hasSafe() {
     return hasSafe;
   }
 
@@ -69,7 +69,7 @@ public class Room {
     this.hasSafe = hasSafe;
   }
 
-  public boolean isHasTV() {
+  public boolean hasTV() {
     return hasTV;
   }
 
