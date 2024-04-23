@@ -1,36 +1,29 @@
 package pl.wsb.hotel.services;
 
 public class TimeService extends SpecialService {
-  protected TimeService(String name, double price) {
-    super(name, price);
+  protected TimeService(String name, double price, String description) {
+    super(name, price, description);
   }
 
   @Override
   public void orderService() {
-    // print current time
+    // print the current time
     System.out.println("Current time: " + java.time.LocalTime.now());
   }
 
   @Override
-  public void checkAvailability() {
-    // message that time service is available
-    System.out.println("Time service is available");
+  public void setPrice(double price) {
+    this.price = price;
   }
 
   @Override
-  public void updatePrice(double newPrice) {
-    // message that price has been updated
-    System.out.println("Price has been updated");
-  }
-
-  @Override
-  public double checkPrice() {
+  public double getPrice() {
     return price;
   }
 
   @Override
-  public void updateDescription(String newDescription) {
-    description = newDescription;
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   @Override
