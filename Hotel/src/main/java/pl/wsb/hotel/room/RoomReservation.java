@@ -1,7 +1,7 @@
-package hotel.room;
+package pl.wsb.hotel.room;
 
-import hotel.client.Client;
 import java.time.LocalDate;
+import pl.wsb.hotel.client.Client;
 
 public class RoomReservation {
   private LocalDate date;

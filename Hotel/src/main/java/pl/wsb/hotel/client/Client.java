@@ -1,4 +1,4 @@
-package hotel.client;
+package pl.wsb.hotel.client;
 
 import java.time.LocalDate;
 import java.time.Period;

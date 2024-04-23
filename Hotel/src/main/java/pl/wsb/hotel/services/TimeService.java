@@ -1,4 +1,4 @@
-package hotel.services;
+package pl.wsb.hotel.services;
 
 public class TimeService extends SpecialService {
   protected TimeService(String name, double price) {

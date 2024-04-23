@@ -1,4 +1,4 @@
-package hotel.client;
+package pl.wsb.hotel.client;
 
 public enum PremiumClientType {
   PREMIUM,

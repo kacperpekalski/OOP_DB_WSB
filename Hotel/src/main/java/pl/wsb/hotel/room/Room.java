@@ -1,4 +1,4 @@
-package hotel.room;
+package pl.wsb.hotel.room;
 
 public class Room {
   private String id;
@@ -10,8 +10,8 @@ public class Room {
   private boolean hasSafe;
   private boolean hasTV;
 
-  public Room(String id, double area, int floor,
-      boolean hasKingSizeBed, boolean hasBalcony, boolean hasSafe, boolean hasTV) {
+  public Room(String id, double area, int floor, boolean hasKingSizeBed, boolean hasBalcony,
+      boolean hasSafe, boolean hasTV) {
     this.id = id;
     this.area = area;
     this.floor = floor;
