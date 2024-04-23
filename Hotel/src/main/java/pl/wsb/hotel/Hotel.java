@@ -40,11 +40,9 @@ public class Hotel {
       throw new IllegalArgumentException("Special service cannot be null");
     }
 
-    if (this.specialServices.contains(service)) {
+    if (!this.specialServices.add(service)) {
       throw new IllegalArgumentException("Special service already exists");
     }
-
-    this.specialServices.add(service);
   }
 
   public void removeSpecialService(SpecialService service) {
@@ -52,11 +50,9 @@ public class Hotel {
       throw new IllegalArgumentException("Special service cannot be null");
     }
 
-    if (!this.specialServices.contains(service)) {
+    if (!this.specialServices.remove(service)) {
       throw new IllegalArgumentException("Special service does not exist");
     }
-
-    this.specialServices.remove(service);
   }
 
   public Set<Client> getClients() {
@@ -68,11 +64,9 @@ public class Hotel {
       throw new IllegalArgumentException("Client cannot be null");
     }
 
-    if (this.clients.contains(client)) {
+    if (!this.clients.add(client)) {
       throw new IllegalArgumentException("Client already exists");
     }
-
-    this.clients.add(client);
   }
 
   public void removeClient(Client client) {
@@ -80,11 +74,9 @@ public class Hotel {
       throw new IllegalArgumentException("Client cannot be null");
     }
 
-    if (!this.clients.contains(client)) {
+    if (!this.clients.remove(client)) {
       throw new IllegalArgumentException("Client does not exist");
     }
-
-    this.clients.remove(client);
   }
 
   public Set<RoomReservation> getReservations() {
@@ -96,11 +88,9 @@ public class Hotel {
       throw new IllegalArgumentException("Reservation cannot be null");
     }
 
-    if (this.reservations.contains(reservation)) {
+    if (!this.reservations.add(reservation)) {
       throw new IllegalArgumentException("Reservation already exists");
     }
-
-    this.reservations.add(reservation);
   }
 
   public void removeReservation(RoomReservation reservation) {
@@ -108,11 +98,9 @@ public class Hotel {
       throw new IllegalArgumentException("Reservation cannot be null");
     }
 
-    if (!this.reservations.contains(reservation)) {
+    if (!this.reservations.remove(reservation)) {
       throw new IllegalArgumentException("Reservation does not exist");
     }
-
-    this.reservations.remove(reservation);
   }
 
   public Set<Room> getRooms() {
@@ -124,11 +112,9 @@ public class Hotel {
       throw new IllegalArgumentException("Room cannot be null");
     }
 
-    if (this.rooms.contains(room)) {
+    if (!this.rooms.add(room)) {
       throw new IllegalArgumentException("Room already exists");
     }
-
-    this.rooms.add(room);
   }
 
   public void removeRoom(Room room) {
@@ -136,10 +122,8 @@ public class Hotel {
       throw new IllegalArgumentException("Room cannot be null");
     }
 
-    if (!this.rooms.contains(room)) {
+    if (!this.rooms.remove(room)) {
       throw new IllegalArgumentException("Room does not exist");
     }
-
-    this.rooms.remove(room);
   }
 }
