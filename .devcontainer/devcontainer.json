@@ -1,0 +1,64 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+	"name": "Java",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
+	// Configuration for script-library/common-debian.sh script
+	"features": {
+		"common": {
+			"username": "automatic",
+			"uid": "automatic",
+			"gid": "automatic",
+			"installZsh": false,
+			"installOhMyZsh": false,
+			"upgradePackages": true,
+			"nonFreePackages": true
+		},
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "21",
+			"installMaven": "true",
+			"mavenVersion": "3.9.6"
+		}
+	},
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {
+				"editor.insertSpaces": true,
+				"editor.tabSize": 2,
+				"editor.detectIndentation": true,
+				"editor.rulers": [100]
+			},
+			"extensions": [
+				"vscjava.vscode-java-pack",
+				"streetsidesoftware.code-spell-checker",
+				"streetsidesoftware.code-spell-checker-polish"
+			]
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+	// "mounts": [],
+
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	"runArgs": [
+		"--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined", "--privileged",
+		"--hostname=devcontainer"
+	],
+
+	// "remoteEnv": {},
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode"
+
+	// Run this command once, just after container is created
+	// "postCreateCommand": ""
+}
