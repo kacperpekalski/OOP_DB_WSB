@@ -5,7 +5,6 @@ public class Room {
   private double area;
   private int floor;
   private boolean hasKingSizeBed;
-  // Pola dodane przez nas
   private boolean hasBalcony;
   private boolean hasSafe;
   private boolean hasTV;

@@ -23,7 +23,6 @@ public class PremiumClient extends Client {
     return "[premium] " + super.getFullName();
   }
 
-  // getter and setter for premiumAccountType
   public PremiumClientType getPremiumAccountType() {
     return premiumAccountType;
   }

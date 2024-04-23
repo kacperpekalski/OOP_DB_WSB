@@ -23,7 +23,6 @@ public class Hotel {
     this.rooms = new HashSet<>();
   }
 
-  // getters and setters for all fields
   public String getName() {
     return name;
   }
