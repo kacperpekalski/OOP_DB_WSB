@@ -103,4 +103,15 @@ public class Client {
   public String getEmail() {
     return email;
   }
+
+  public void prettyPrint() {
+    System.out.println("  instance   : " + toString());
+    System.out.println("  ID         : " + getId());
+    System.out.println("  full name  : " + getFullName());
+    System.out.println("  age        : " + getAge());
+    System.out.println("  gender     : " + getGender());
+    System.out.println("  email      : " + getEmail());
+    System.out.println("  number     : " + getNumber());
+    System.out.println("  smoker     : " + isSmoker());
+  }
 }

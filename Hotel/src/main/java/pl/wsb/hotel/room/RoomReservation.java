@@ -47,4 +47,12 @@ public class RoomReservation {
   public void confirmReservation() {
     this.isConfirmed = true;
   }
+
+  public void prettyPrint() {
+    System.out.println("  instance    : " + toString());
+    System.out.println("  date        : " + getDate());
+    System.out.println("  client ID   : " + getClient().getId());
+    System.out.println("  room ID     : " + getRoom().getId());
+    System.out.println("  confirmed   : " + isConfirmed());
+  }
 }

@@ -30,4 +30,10 @@ public class PremiumClient extends Client {
   public void setPremiumAccountType(PremiumClientType premiumAccountType) {
     this.premiumAccountType = premiumAccountType;
   }
+
+  @Override
+  public void prettyPrint() {
+    super.prettyPrint();
+    System.out.println("  type       : " + getPremiumAccountType());
+  }
 }

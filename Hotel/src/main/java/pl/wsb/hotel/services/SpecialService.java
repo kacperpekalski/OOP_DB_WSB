@@ -14,4 +14,10 @@ public abstract class SpecialService {
   public abstract String getName();
   public abstract void setPrice(double price);
   public abstract double getPrice();
+
+  public void prettyPrint() {
+      System.out.println("  instance  : " + toString());
+      System.out.println("  name      : " + getName());
+      System.out.println("  price     : " + getPrice());
+  }
 }

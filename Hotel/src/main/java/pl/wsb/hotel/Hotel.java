@@ -17,10 +17,10 @@ public class Hotel {
   public Hotel(String name) {
     this.name = name;
 
-    this.specialServices = new HashSet<>();
-    this.clients = new HashSet<>();
-    this.reservations = new HashSet<>();
-    this.rooms = new HashSet<>();
+    this.specialServices = new HashSet<SpecialService>();
+    this.clients = new HashSet<Client>();
+    this.reservations = new HashSet<RoomReservation>();
+    this.rooms = new HashSet<Room>();
   }
 
   public String getName() {
@@ -125,5 +125,47 @@ public class Hotel {
     if (!this.rooms.remove(room)) {
       throw new IllegalArgumentException("Room does not exist");
     }
+  }
+
+  public void prettyPrintSimple() {
+    System.out.println("Hotel:");
+    System.out.println("  instance               : " + toString());
+    System.out.println("  name                   : " + getName());
+    System.out.println("  special service count  : " + getSpecialServices().size());
+    System.out.println("  room count             : " + getRooms().size());
+    System.out.println("  client count           : " + getClients().size());
+    System.out.println("  reservation count      : " + getReservations().size());
+  }
+
+  public void prettyPrintComplex() {
+    prettyPrintSimple();
+
+    System.out.println();
+    System.out.println("Special services in hotel:");
+    getSpecialServices().forEach(serviceSpecial -> {
+      System.out.println();
+      serviceSpecial.prettyPrint();
+    });
+
+    System.out.println();
+    System.out.println("Rooms in hotel:");
+    getRooms().forEach(room -> {
+      System.out.println();
+      room.prettyPrint();
+    });
+
+    System.out.println();
+    System.out.println("Clients in hotel:");
+    getClients().forEach(client -> {
+      System.out.println();
+      client.prettyPrint();
+    });
+
+    System.out.println();
+    System.out.println("Reservations in hotel:");
+    getReservations().forEach(reservation -> {
+      System.out.println();
+      reservation.prettyPrint();
+    });
   }
 }
