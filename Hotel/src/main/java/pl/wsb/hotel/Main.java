@@ -1,127 +1,87 @@
 package pl.wsb.hotel;
 
 import java.time.LocalDate;
+
 import pl.wsb.hotel.client.Client;
+import pl.wsb.hotel.client.PremiumClient;
+import pl.wsb.hotel.client.PremiumClientType;
 import pl.wsb.hotel.room.Room;
 import pl.wsb.hotel.room.RoomReservation;
+import pl.wsb.hotel.services.SpecialService;
+import pl.wsb.hotel.services.LuggageService;
+import pl.wsb.hotel.services.TimeService;
 
 public class Main {
   public static void main(String[] args) {
-    // Utworzenie klientów
+    // Create example clients
+    Client clientBasic = new Client("0", "Basic", "Client", LocalDate.of(1975, 2, 14),
+        true, "man", "100200300", "basic.client@example.com");
+    Client clientPremium = new PremiumClient("1", "Premium", "Client", LocalDate.of(2002, 1, 2),
+        false, "woman", "400500600", "premium.client@example.com", PremiumClientType.PREMIUM);
+    Client clientPremiumPlus = new PremiumClient("2", "Premiumplus", "Client", LocalDate.of(1960, 1, 2),
+        false, "man", "700800900", "premiumplus.client@example.com", PremiumClientType.PREMIUM_PLUS);
 
-    // Konstruktor prosty
-    Client prosty = new Client("00", "Jerzy", "Prosty", LocalDate.of(1975, 2, 14));
-    // Konstruktor rozszerzony
-    Client kowalski = new Client("01", "Janusz", "Kowalski", LocalDate.of(2000, 4, 23), true, "M",
-        "+48666999666", "Janusz.Kow@gmail.com");
-    Client brzeczyszczykiewicz = new Client("03", "Adam", "Brzeczyszczykiewicz",
-        LocalDate.of(2004, 4, 23), true, "M", "+48888999888", "Adam.Brze@gmail.com");
+    // Create example rooms
+    Room roomForBasic = new Room("11", 10, 1, false, false, false, true);
+    Room roomForPremium = new Room("22", 20, 2, false, true, false, true);
+    Room roomForPremiumPlus = new Room("33", 30, 3, true, true, true, true);
 
-    // Utworzenie pokojów
-    Room room1 = new Room("12", 23.5, 2, true, true, false, true);
-    Room room2 = new Room("13", 23.5, 2, true, true, false, true);
-    // Dokonanie rezerwacji przez klienta kowalski na pokój room1
-    RoomReservation roomReservation_12 = new RoomReservation(LocalDate.now(), kowalski, room1);
+    // Create example reservations
+    RoomReservation roomReservationForBasic = new RoomReservation(LocalDate.now(),
+        clientBasic, roomForBasic);
+    roomReservationForBasic.confirmReservation();
+    RoomReservation roomReservationForPremium = new RoomReservation(LocalDate.now(),
+        clientPremium, roomForPremium);
+    RoomReservation roomReservationForPremiumPlus = new RoomReservation(LocalDate.now(),
+        clientPremiumPlus, roomForPremiumPlus);
+    roomReservationForBasic.confirmReservation();
 
-    // Test metod klasy RoomReservation
+    // Create example special services
+    SpecialService serviceLuggage = new LuggageService("Luggage storage", 5);
+    SpecialService serviceTime = new TimeService("Current time info", 0);
 
-    System.out.println(roomReservation_12.getRoom().getId());
-    System.out.println(roomReservation_12.getClient().getFullName());
-    System.out.println(roomReservation_12.getDate());
-    System.out.println(roomReservation_12.isConfirmed());
+    // Create an example empty hotel
+    Hotel hotel = new Hotel("Example Hotel ******");
+    System.out.println();
+    System.out.println("======================== Empty hotel: ========================");
+    System.out.println();
+    hotel.prettyPrintSimple();
 
-    System.out.println("------------");
+    // Fill the hotel
+    hotel.addSpecialService(serviceLuggage);
+    hotel.addSpecialService(serviceTime);
+    hotel.addRoom(roomForBasic);
+    hotel.addRoom(roomForPremium);
+    hotel.addRoom(roomForPremiumPlus);
+    hotel.addReservation(roomReservationForBasic);
+    hotel.addReservation(roomReservationForPremium);
+    hotel.addReservation(roomReservationForPremiumPlus);
+    hotel.addClient(clientBasic);
+    hotel.addClient(clientPremium);
+    hotel.addClient(clientPremiumPlus);
+    System.out.println();
+    System.out.println("======================== Filled hotel: =======================");
+    System.out.println();
+    hotel.prettyPrintComplex();
 
-    roomReservation_12.setDate(LocalDate.of(2024, 4, 3));
-    roomReservation_12.setClient(brzeczyszczykiewicz);
-    roomReservation_12.setRoom(room2);
-    roomReservation_12.confirmReservation();
+    // Order services available in the hotel
+    System.out.println();
+    System.out.println("======================= Order services: ======================");
+    System.out.println();
+    hotel.getSpecialServices().forEach(serviceSpecial -> {
+      System.out.println();
+      serviceSpecial.prettyPrint();
+      serviceSpecial.orderService();
+    });
 
-    System.out.println(roomReservation_12.getRoom().getId());
-    System.out.println(roomReservation_12.getClient().getFullName());
-    System.out.println(roomReservation_12.getDate());
-    System.out.println(roomReservation_12.isConfirmed());
-
-    System.out.println("------------");
-
-    // Testy metod klasy Client
-
-    // Klient utworzony konstruktorem prostym
-    System.out.println(prosty.getId());
-    System.out.println(prosty.getFirstName());
-    System.out.println(prosty.getLastName());
-    System.out.println(prosty.getFullName());
-    System.out.println(prosty.getBirthDate());
-    System.out.println(prosty.getAge());
-    // Pola o wartości domyślnej (null)
-    System.out.println(prosty.getSmoker());
-    System.out.println(prosty.getGender());
-    System.out.println(prosty.getNumber());
-    System.out.println(prosty.getEmail());
-
-    // Klient utworzony konstruktorem rozszerzonym
-    System.out.println(kowalski.getId());
-    System.out.println(kowalski.getFirstName());
-    System.out.println(kowalski.getLastName());
-    System.out.println(kowalski.getFullName());
-    System.out.println(kowalski.getBirthDate());
-    System.out.println(kowalski.getAge());
-    System.out.println(kowalski.getSmoker());
-    System.out.println(kowalski.getGender());
-    System.out.println(kowalski.getNumber());
-    System.out.println(kowalski.getEmail());
-
-    System.out.println("------------");
-
-    kowalski.setId("02");
-    kowalski.setFirstName("Janina");
-    kowalski.setLastName("Kowalska");
-    kowalski.setBirthDate(LocalDate.of(2001, 8, 12));
-    kowalski.setSmoker(false);
-    kowalski.setGender("F");
-    kowalski.setNumber("+48999666999");
-    kowalski.setEmail("Janina.kow@gmail.com");
-
-    System.out.println(kowalski.getId());
-    System.out.println(kowalski.getFirstName());
-    System.out.println(kowalski.getLastName());
-    System.out.println(kowalski.getFullName());
-    System.out.println(kowalski.getBirthDate());
-    System.out.println(kowalski.getAge());
-    System.out.println(kowalski.getSmoker());
-    System.out.println(kowalski.getGender());
-    System.out.println(kowalski.getNumber());
-    System.out.println(kowalski.getEmail());
-
-    System.out.println("------------");
-    // Test metod klasy Room
-
-    System.out.println(room1.getId());
-    System.out.println(room1.getArea());
-    System.out.println(room1.getFloor());
-    System.out.println(room1.hasBalcony());
-    System.out.println(room1.hasSafe());
-    System.out.println(room1.hasKingSizeBed());
-    System.out.println(room1.hasTV());
-
-    System.out.println("------------");
-
-    room1.setId("19");
-    room1.setArea(59.9);
-    room1.setFloor(3);
-    room1.setHasBalcony(false);
-    room1.setHasSafe(true);
-    room1.setHasKingSizeBed(false);
-    room1.setHasTV(false);
-
-    System.out.println(room1.getId());
-    System.out.println(room1.getArea());
-    System.out.println(room1.getFloor());
-    System.out.println(room1.hasBalcony());
-    System.out.println(room1.hasSafe());
-    System.out.println(room1.hasKingSizeBed());
-    System.out.println(room1.hasTV());
-
-    System.out.println("------------");
+    // Partially empty the hotel
+    hotel.removeSpecialService(serviceLuggage);
+    hotel.removeRoom(roomForPremium);
+    hotel.removeReservation(roomReservationForPremium);
+    hotel.removeClient(clientPremium);
+    System.out.println();
+    System.out.println("================== Partially emptied hotel: ==================");
+    System.out.println();
+    hotel.prettyPrintComplex();
   }
 }
