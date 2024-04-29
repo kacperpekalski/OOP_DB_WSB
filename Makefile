@@ -1,7 +1,17 @@
 PROJECT_PATH := Hotel
+HOTEL_SOURCE_PATH := $(PROJECT_PATH)/src/main/java/pl/wsb/hotel
 
 format:
-	find $(PROJECT_PATH) -type f -name "*.java" \
+	find $(PROJECT_PATH) \
+		-type f \
+		\( -path $(HOTEL_SOURCE_PATH)/exceptions/ClientNotFoundException.java \
+			-o -path $(HOTEL_SOURCE_PATH)/exceptions/ReservationNotFoundException.java \
+			-o -path $(HOTEL_SOURCE_PATH)/exceptions/RoomNotFoundException.java \
+			-o -path $(HOTEL_SOURCE_PATH)/exceptions/RoomReservedException.java \
+			-o -path $(HOTEL_SOURCE_PATH)/HotelCapability.java \) \
+			-prune \
+		-o -name "*.java"	\
+		-print \
 	| xargs \
 	clang-format -i
 
