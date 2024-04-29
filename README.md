@@ -43,7 +43,7 @@ Diagram:
 - [ ] *poza poleceniem*: w `class Hotel` przechowywać dane w kolekcjach typu `key : value`,
   gdzie `key` to `id` dodawanego obiektu, najlepiej `add/get/remove` o `O(1)`,
   ułatwi to implementację logiki nowych metod z `interface HotelCapability`.
-- [ ] Dodanie (pliki jako załączniki w zadaniu) `class *Exception` do `pl.wsb.hotel.exceptions`.
+- [x] Dodanie (pliki jako załączniki w zadaniu) `class *Exception` do `pl.wsb.hotel.exceptions`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [ ] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
