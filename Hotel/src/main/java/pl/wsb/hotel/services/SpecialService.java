@@ -16,8 +16,8 @@ public abstract class SpecialService {
   public abstract double getPrice();
 
   public void prettyPrint() {
-      System.out.println("  instance  : " + toString());
-      System.out.println("  name      : " + getName());
-      System.out.println("  price     : " + getPrice());
+    System.out.println("  instance  : " + toString());
+    System.out.println("  name      : " + getName());
+    System.out.println("  price     : " + getPrice());
   }
 }

@@ -85,5 +85,5 @@ public class Room {
     System.out.println("  balcony        : " + hasBalcony());
     System.out.println("  safe           : " + hasSafe());
     System.out.println("  TV             : " + hasTv());
-}
+  }
 }
