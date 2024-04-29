@@ -45,7 +45,7 @@ Diagram:
   ułatwi to implementację logiki nowych metod z `interface HotelCapability`.
 - [x] Dodanie (pliki jako załączniki w zadaniu) `class *Exception` do `pl.wsb.hotel.exceptions`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
-- [ ] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
+- [x] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [ ] Implementacja `class Hotel implements HotelCapability`.
   - [ ] `addClient(firstName, lastName, birthDate)` - tworzy nowego klienta, dodaje go do `Hotel`
