@@ -1,15 +1,18 @@
 package pl.wsb.hotel;
 
-import java.util.Set;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.UUID;
 import pl.wsb.hotel.client.Client;
 import pl.wsb.hotel.room.Room;
 import pl.wsb.hotel.room.RoomReservation;
 import pl.wsb.hotel.services.SpecialService;
+import pl.wsb.hotel.exceptions.ClientNotFoundException;
 
-public class Hotel {
+public class Hotel implements HotelCapability {
   private String name;
   private final Set<SpecialService> specialServices;
   private final Map<String, Client> clients;
@@ -61,32 +64,61 @@ public class Hotel {
     return clients;
   }
 
-  public void addClient(Client client) {
+  public Client getClient(String clientId) throws ClientNotFoundException {
+    Client client = getClients().get(clientId);
     if (client == null) {
-      throw new IllegalArgumentException("Client cannot be null");
-    }
-    if (client.getId() == null) {
-      throw new IllegalArgumentException("Client ID cannot be null");
+      throw new ClientNotFoundException("Client ID " + clientId + "not found");
     }
 
-    if (this.clients.containsKey(client.getId())) {
-      throw new IllegalArgumentException(String.format("Client %s already exists", client.getId()));
+    return client;
+  }
+
+  @Override
+  public String addClient(String firstName, String lastName, LocalDate birthDate) {
+    Client client = new Client(UUID.randomUUID().toString(), firstName, lastName, birthDate);
+    if (getClients().containsKey(client.getId())) {
+      throw new IllegalArgumentException(
+          String.format("Client " + client.getId() + " already exists"));
     }
 
     this.clients.put(client.getId(), client);
+    return client.getId();
   }
 
-  public void removeClient(Client client) {
+  public Client removeClient(String clientId) throws ClientNotFoundException {
+    Client client = this.clients.remove(clientId);
     if (client == null) {
-      throw new IllegalArgumentException("Client cannot be null");
-    }
-    if (client.getId() == null) {
-      throw new IllegalArgumentException("Client ID cannot be null");
+      throw new ClientNotFoundException("Client ID " + clientId + "not found");
     }
 
-    if (this.clients.remove(client.getId()) == null) {
-      throw new IllegalArgumentException("Client does not exist");
+    return client;
+  }
+
+  // This method would propagate the exception to remain consistent
+  // with other methods taking `*Id` as a parameter,
+  // but this would conflict with the `interface HotelCapability` definition.
+  // `null` will be returned if the exception is caught to avoid throwing an unchecked exception
+  // in place where `clientId` can be a valid String and a possible ID
+  // but doesn't exist as a key in the map.
+  @Override
+  public String getClientFullName(String clientId) {
+    try {
+      return getClient(clientId).getFullName();
+    } catch (ClientNotFoundException exception) {
+      return null;
     }
+  }
+
+  @Override
+  public int getNumberOfUnderageClients() {
+    int numberOfUnderageClients = 0;
+    for (Client client : getClients().values()) {
+      if (client.getAge() < 18) {
+        numberOfUnderageClients++;
+      }
+    }
+
+    return numberOfUnderageClients;
   }
 
   public void addRoom(Room room) {

@@ -52,10 +52,10 @@ Diagram:
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [x] Dodanie `String id` do `class RoomReservation`.
 - [ ] Implementacja `class Hotel implements HotelCapability`.
-  - [ ] `addClient(firstName, lastName, birthDate)` - tworzy nowego klienta, dodaje go do `Hotel`
+  - [x] `addClient(firstName, lastName, birthDate)` - tworzy nowego klienta, dodaje go do `Hotel`
     i zwraca jego `clientId`.
-  - [ ] `getClientFullName(clientId)` - zwraca pełne imię i nazwisko klienta o danym `clientId`.
-  - [ ] `getNumberOfUnderageClients()` - zwraca liczbę niepełnoletnich klientów.
+  - [x] `getClientFullName(clientId)` - zwraca pełne imię i nazwisko klienta o danym `clientId`.
+  - [x] `getNumberOfUnderageClients()` - zwraca liczbę niepełnoletnich klientów.
   - [ ] `addRoom(area, floor, hasKingSizeBed, description)` - jak `addClient()`.
   - [ ] `getRoomArea(roomId)` - jak `getClientFullName(clientId)`.
   - [ ] `getNumberOfRoomsWithKingSizeBed(floor)`-
