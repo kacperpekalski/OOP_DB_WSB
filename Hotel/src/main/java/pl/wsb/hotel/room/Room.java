@@ -8,9 +8,18 @@ public class Room {
   private boolean hasBalcony;
   private boolean hasSafe;
   private boolean hasTv;
+  private String description;
+
+  public Room(String id, double area, int floor, boolean hasKingSizeBed, String description) {
+    this.id = id;
+    this.area = area;
+    this.floor = floor;
+    this.hasKingSizeBed = hasKingSizeBed;
+    this.description = description;
+  }
 
   public Room(String id, double area, int floor, boolean hasKingSizeBed, boolean hasBalcony,
-      boolean hasSafe, boolean hasTv) {
+      boolean hasSafe, boolean hasTv, String description) {
     this.id = id;
     this.area = area;
     this.floor = floor;
@@ -18,6 +27,7 @@ public class Room {
     this.hasBalcony = hasBalcony;
     this.hasSafe = hasSafe;
     this.hasTv = hasTv;
+    this.description = description;
   }
 
   public String getId() {
@@ -76,6 +86,14 @@ public class Room {
     this.hasTv = hasTv;
   }
 
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   public void prettyPrint() {
     System.out.println("  instance       : " + toString());
     System.out.println("  ID             : " + getId());
@@ -85,5 +103,6 @@ public class Room {
     System.out.println("  balcony        : " + hasBalcony());
     System.out.println("  safe           : " + hasSafe());
     System.out.println("  TV             : " + hasTv());
+    System.out.println("  description    : " + getDescription());
   }
 }
