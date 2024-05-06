@@ -50,6 +50,7 @@ Diagram:
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [x] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
+- [x] Dodanie `String id` do `class RoomReservation`.
 - [ ] Implementacja `class Hotel implements HotelCapability`.
   - [ ] `addClient(firstName, lastName, birthDate)` - tworzy nowego klienta, dodaje go do `Hotel`
     i zwraca jego `clientId`.
