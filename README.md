@@ -56,9 +56,9 @@ Diagram:
     i zwraca jego `clientId`.
   - [x] `getClientFullName(clientId)` - zwraca pełne imię i nazwisko klienta o danym `clientId`.
   - [x] `getNumberOfUnderageClients()` - zwraca liczbę niepełnoletnich klientów.
-  - [ ] `addRoom(area, floor, hasKingSizeBed, description)` - jak `addClient()`.
-  - [ ] `getRoomArea(roomId)` - jak `getClientFullName(clientId)`.
-  - [ ] `getNumberOfRoomsWithKingSizeBed(floor)`-
+  - [x] `addRoom(area, floor, hasKingSizeBed, description)` - jak `addClient()`.
+  - [x] `getRoomArea(roomId)` - jak `getClientFullName(clientId)`.
+  - [x] `getNumberOfRoomsWithKingSizeBed(floor)`-
     zwraca liczbę pokoi z łóżkiem king size na podanym piętrze.
   - [ ] `addNewReservation(clientId, roomId, date)` - tworzy nową rezerwację
     dla istniejącego klienta o `clientId`

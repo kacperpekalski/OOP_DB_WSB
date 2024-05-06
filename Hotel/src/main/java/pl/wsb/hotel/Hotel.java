@@ -1,16 +1,17 @@
 package pl.wsb.hotel;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 import pl.wsb.hotel.client.Client;
+import pl.wsb.hotel.exceptions.ClientNotFoundException;
+import pl.wsb.hotel.exceptions.RoomNotFoundException;
 import pl.wsb.hotel.room.Room;
 import pl.wsb.hotel.room.RoomReservation;
 import pl.wsb.hotel.services.SpecialService;
-import pl.wsb.hotel.exceptions.ClientNotFoundException;
 
 public class Hotel implements HotelCapability {
   private String name;
@@ -121,37 +122,64 @@ public class Hotel implements HotelCapability {
     return numberOfUnderageClients;
   }
 
-  public void addRoom(Room room) {
+  public Map<String, Room> getRooms() {
+    return rooms;
+  }
+
+  public Room getRoom(String roomId) throws RoomNotFoundException {
+    Room room = getRooms().get(roomId);
     if (room == null) {
-      throw new IllegalArgumentException("Room cannot be null");
-    }
-    if (room.getId() == null) {
-      throw new IllegalArgumentException("Room ID cannot be null");
+      throw new RoomNotFoundException("Room ID " + roomId + " not found");
     }
 
-    if (this.rooms.containsKey(room.getId())) {
-      throw new IllegalArgumentException(String.format("Room %s already exists",
-          room.getId()));
-    }
+    return room;
+  }
 
+  @Override
+  public String addRoom(double area, int floor, boolean hasKingSizeBed, String description) {
+    Room room = new Room(UUID.randomUUID().toString(), area, floor, hasKingSizeBed, description);
+    if (getRooms().containsKey(room.getId())) {
+      throw new IllegalArgumentException("Room " + room.getId() + " already exists");
+    }
     this.rooms.put(room.getId(), room);
+
+    return room.getId();
   }
 
-  public void removeRoom(Room room) {
+  public Room removeRoom(String roomId) throws RoomNotFoundException {
+    Room room = this.rooms.remove(roomId);
     if (room == null) {
-      throw new IllegalArgumentException("Room cannot be null");
-    }
-    if (room.getId() == null) {
-      throw new IllegalArgumentException("Room ID cannot be null");
+      throw new RoomNotFoundException("Room ID " + room + " not found");
     }
 
-    if (this.rooms.remove(room.getId()) == null) {
-      throw new IllegalArgumentException("Room does not exist");
+    return room;
+  }
+
+  // This method would propagate the exception to remain consistent
+  // with other methods taking `*Id` as a parameter,
+  // but this would conflict with the `interface HotelCapability` definition.
+  // `Double.NaN` will be returned if the exception is caught to avoid throwing
+  // an unchecked exception in place where `roomId` can be a valid String and a possible ID
+  // but doesn't exist as a key in the map.
+  @Override
+  public double getRoomArea(String roomId) {
+    try {
+      return getRoom(roomId).getArea();
+    } catch (RoomNotFoundException exception) {
+      return Double.NaN;
     }
   }
 
-  public Map<String, RoomReservation> getReservations() {
-    return reservations;
+  @Override
+  public int getNumberOfRoomsWithKingSizeBed(int floor) {
+    int numberOfRoomsWithKingSizeBedAtFloor = 0;
+    for (Room room : getRooms().values()) {
+      if ((room.getFloor() == floor) && room.hasKingSizeBed()) {
+        numberOfRoomsWithKingSizeBedAtFloor++;
+      }
+    }
+
+    return numberOfRoomsWithKingSizeBedAtFloor;
   }
 
   public void addReservation(RoomReservation reservation) {
@@ -181,10 +209,6 @@ public class Hotel implements HotelCapability {
     if (this.reservations.remove(reservation.getId()) == null) {
       throw new IllegalArgumentException("Reservation does not exist");
     }
-  }
-
-  public Map<String, Room> getRooms() {
-    return rooms;
   }
 
   public void prettyPrintSimple() {
