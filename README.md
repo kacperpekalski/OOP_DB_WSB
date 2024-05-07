@@ -47,6 +47,11 @@ Diagram:
   - [x] clients
   - [x] roomReservations
 - [x] *poza poleceniem*: gettery do `Collection` powinny zwracać `Collections.unmodifiable*`
+- [ ] *poza poleceniem*: uniknąć rzucania unchecked wyjątków przy błędach argumentu wynikających
+  ze złej (nieznalezionej) wartości, a nie błędu krytycznego
+- [ ] *poza poleceniem*: dodać logi błędów w miejscach, gdzie występuje błąd bez wyjątku
+- [ ] *poza poleceniem*: zdecydować jak handlować i dodać `null` handling do argumentów
+  (szczególnie ID)
 - [x] Dodanie (pliki jako załączniki w zadaniu) `class *Exception` do `pl.wsb.hotel.exceptions`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [x] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
