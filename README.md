@@ -46,6 +46,7 @@ Diagram:
   - [x] rooms
   - [x] clients
   - [x] roomReservations
+- [x] *poza poleceniem*: gettery do `Collection` powinny zwracać `Collections.unmodifiable*`
 - [x] Dodanie (pliki jako załączniki w zadaniu) `class *Exception` do `pl.wsb.hotel.exceptions`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [x] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.

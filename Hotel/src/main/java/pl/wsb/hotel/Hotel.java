@@ -2,6 +2,7 @@ package pl.wsb.hotel;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class Hotel implements HotelCapability {
   }
 
   public Set<SpecialService> getSpecialServices() {
-    return specialServices;
+    return Collections.unmodifiableSet(specialServices);
   }
 
   public void addSpecialService(SpecialService service) {
@@ -65,7 +66,7 @@ public class Hotel implements HotelCapability {
   }
 
   public Map<String, Client> getClients() {
-    return clients;
+    return Collections.unmodifiableMap(clients);
   }
 
   public Client getClient(String clientId) throws ClientNotFoundException {
@@ -126,7 +127,7 @@ public class Hotel implements HotelCapability {
   }
 
   public Map<String, Room> getRooms() {
-    return rooms;
+    return Collections.unmodifiableMap(rooms);
   }
 
   public Room getRoom(String roomId) throws RoomNotFoundException {
@@ -186,7 +187,7 @@ public class Hotel implements HotelCapability {
   }
 
   public Map<String, RoomReservation> getReservations() {
-    return reservations;
+    return Collections.unmodifiableMap(reservations);
   }
 
   public RoomReservation getReservation(String reservationId) throws ReservationNotFoundException {
