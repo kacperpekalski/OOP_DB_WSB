@@ -1,6 +1,7 @@
 package pl.wsb.hotel;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,7 +9,9 @@ import java.util.Set;
 import java.util.UUID;
 import pl.wsb.hotel.client.Client;
 import pl.wsb.hotel.exceptions.ClientNotFoundException;
+import pl.wsb.hotel.exceptions.ReservationNotFoundException;
 import pl.wsb.hotel.exceptions.RoomNotFoundException;
+import pl.wsb.hotel.exceptions.RoomReservedException;
 import pl.wsb.hotel.room.Room;
 import pl.wsb.hotel.room.RoomReservation;
 import pl.wsb.hotel.services.SpecialService;
@@ -182,33 +185,92 @@ public class Hotel implements HotelCapability {
     return numberOfRoomsWithKingSizeBedAtFloor;
   }
 
-  public void addReservation(RoomReservation reservation) {
+  public Map<String, RoomReservation> getReservations() {
+    return reservations;
+  }
+
+  public RoomReservation getReservation(String reservationId) throws ReservationNotFoundException {
+    RoomReservation reservation = getReservations().get(reservationId);
     if (reservation == null) {
-      throw new IllegalArgumentException("Reservation cannot be null");
-    }
-    if (reservation.getId() == null) {
-      throw new IllegalArgumentException("Reservation ID cannot be null");
+      throw new ReservationNotFoundException("Reservation ID " + reservationId + " not found");
     }
 
-    if (this.reservations.containsKey(reservation.getId())) {
-      throw new IllegalArgumentException(String.format("Reservation %s already exists",
-          reservation.getId()));
+    return reservation;
+  }
+
+  @Override
+  public boolean isRoomReserved(String roomId, LocalDate date) throws RoomNotFoundException {
+    for (RoomReservation existingReservation : getReservations().values()) {
+      if ((existingReservation.getDate() == date)
+          && (existingReservation.getRoom().getId() == roomId)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  @Override
+  public String addNewReservation(String clientId, String roomId, LocalDate date)
+      throws ClientNotFoundException, RoomNotFoundException, RoomReservedException {
+    if (isRoomReserved(roomId, date)) {
+      throw new RoomReservedException(roomId, date);
+    }
+
+    RoomReservation reservation = new RoomReservation(
+        UUID.randomUUID().toString(), date, getClient(clientId), getRoom(roomId));
+
+    if (getReservations().containsKey(reservation.getId())) {
+      throw new IllegalArgumentException(
+          String.format("Reservation ID " + reservation.getId() + " already exists"));
     }
 
     this.reservations.put(reservation.getId(), reservation);
+    return reservation.getId();
   }
 
-  public void removeReservation(RoomReservation reservation) {
+  public RoomReservation removeReservation(String reservationId)
+      throws ReservationNotFoundException {
+    RoomReservation reservation = this.reservations.remove(reservationId);
     if (reservation == null) {
-      throw new IllegalArgumentException("Reservation cannot be null");
-    }
-    if (reservation.getId() == null) {
-      throw new IllegalArgumentException("Reservation ID cannot be null");
+      throw new ReservationNotFoundException("RoomReservation ID " + reservation + " not found");
     }
 
-    if (this.reservations.remove(reservation.getId()) == null) {
-      throw new IllegalArgumentException("Reservation does not exist");
+    return reservation;
+  }
+
+  @Override
+  public String confirmReservation(String reservationId) throws ReservationNotFoundException {
+    RoomReservation reservation = getReservation(reservationId);
+    reservation.confirmReservation();
+
+    return reservation.getId();
+  }
+
+  @Override
+  public int getNumberOfUnconfirmedReservation(LocalDate date) {
+    int numberOfUnconfirmedReservationsOnDate = 0;
+    for (RoomReservation existingReservation : getReservations().values()) {
+      if ((existingReservation.getDate() == date) && !existingReservation.isConfirmed()) {
+        numberOfUnconfirmedReservationsOnDate++;
+      }
     }
+
+    return numberOfUnconfirmedReservationsOnDate;
+  }
+
+  @Override
+  public Collection<String> getRoomIdsReservedByClient(String clientId)
+      throws ClientNotFoundException {
+    Client client = getClient(clientId);
+    HashSet<String> roomIds = new HashSet<String>();
+    for (RoomReservation reservation : getReservations().values()) {
+      if ((client.getId() == reservation.getClient().getId())) {
+        roomIds.add(reservation.getRoom().getId());
+      }
+    }
+
+    return roomIds;
   }
 
   public void prettyPrintSimple() {

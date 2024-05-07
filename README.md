@@ -51,7 +51,7 @@ Diagram:
 - [x] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [x] Dodanie `String id` do `class RoomReservation`.
-- [ ] Implementacja `class Hotel implements HotelCapability`.
+- [x] Implementacja `class Hotel implements HotelCapability`.
   - [x] `addClient(firstName, lastName, birthDate)` - tworzy nowego klienta, dodaje go do `Hotel`
     i zwraca jego `clientId`.
   - [x] `getClientFullName(clientId)` - zwraca pełne imię i nazwisko klienta o danym `clientId`.
@@ -60,21 +60,21 @@ Diagram:
   - [x] `getRoomArea(roomId)` - jak `getClientFullName(clientId)`.
   - [x] `getNumberOfRoomsWithKingSizeBed(floor)`-
     zwraca liczbę pokoi z łóżkiem king size na podanym piętrze.
-  - [ ] `addNewReservation(clientId, roomId, date)` - tworzy nową rezerwację
+  - [x] `addNewReservation(clientId, roomId, date)` - tworzy nową rezerwację
     dla istniejącego klienta o `clientId`
     i pokoju `roomId` na podaną datę `date` oraz zwraca `reservationId`.
-    - [ ] Jeśli klient o podanym `clientId` nie istnieje - `throw ClientNotFoundException`.
-    - [ ] Jeśli pokój o podanym `roomId` nie istnieje - `throw RoomNotFoundException`.
-    - [ ] Jeśli pokój o podanym `roomId` jest już zajęty - `throw RoomReservedException`.
-  - [ ] `confirmReservation(reservationId)` - potwierdza rezerwację o danym `reservationId`
+    - [x] Jeśli klient o podanym `clientId` nie istnieje - `throw ClientNotFoundException`.
+    - [x] Jeśli pokój o podanym `roomId` nie istnieje - `throw RoomNotFoundException`.
+    - [x] Jeśli pokój o podanym `roomId` jest już zajęty tego dnia - `throw RoomReservedException`.
+  - [x] `confirmReservation(reservationId)` - potwierdza rezerwację o danym `reservationId`
     i zwraca go.
-    - [ ] Jeśli rezerwacja o podanym `reservationId` nie istnieje -
+    - [x] Jeśli rezerwacja o podanym `reservationId` nie istnieje -
       `throw ReservationNotFoundException`.
-  - [ ] `isRoomReserved(roomId, date)` - zwraca `boolean` czy pokój jest zarezerwowany danego dnia.
-    - [ ] Jeśli pokój o podanym `roomId` nie istnieje - `throw RoomNotFoundException`.
-  - [ ] `getNumberOfUnconfirmedReservations(date)` -
+  - [x] `isRoomReserved(roomId, date)` - zwraca `boolean` czy pokój jest zarezerwowany danego dnia.
+    - [x] Jeśli pokój o podanym `roomId` nie istnieje - `throw RoomNotFoundException`.
+  - [x] `getNumberOfUnconfirmedReservations(date)` -
     zwraca liczbę niepotwierdzonych rezerwacji na podany dzień `date`.
-  - [ ] `getRoomIdsReservedByClient(clientId)` -
+  - [x] `getRoomIdsReservedByClient(clientId)` -
     zwraca kolekcję unikalnych (bez powtórzeń) `roomId` pokoi,
     które kiedykolwiek zostały zarezerwowane przez klienta o danym `clientId`.
 - [x] Dodanie dependency wymaganych do unit testów do `pom.xml`.
