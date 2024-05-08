@@ -31,6 +31,7 @@ run:
 	java -cp $(PROJECT_PATH)/target/hotel-1.0.0.jar pl.wsb.hotel.Main
 
 all:
+	make format
 	make clean
 # the `make package` will invoke all required steps
 	make package
