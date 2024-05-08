@@ -85,6 +85,13 @@ Diagram:
     które kiedykolwiek zostały zarezerwowane przez klienta o danym `clientId`.
 - [x] Dodanie dependency wymaganych do unit testów do `pom.xml`.
 - [ ] Implementacja unit testów metod `class Hotel` z użyciem podejścia *given, when, then*.
+  - [ ] Implementacja metod `interface HotelCapability` związanych z `Client`
+  - [ ] Implementacja dodatkowych metod związanych z `Client`
+  - [ ] Implementacja metod `interface HotelCapability` związanych z `Room`
+  - [ ] Implementacja dodatkowych metod związanych z `Room`
+  - [ ] Implementacja metod `interface HotelCapability` związanych z `Reservation`
+  - [ ] Implementacja dodatkowych metod związanych z `Reservation`
+  - [ ] Implementacja dodatkowych metod związanych ze `SpecialService`
 - [ ] Implementacja unit testów pozostałych klas.
   (zgodnie z zasadami dobrego unit testowania nie testuje się DTOs - dopytać).
 - [ ] Pokrycie testów minimum 75%.
