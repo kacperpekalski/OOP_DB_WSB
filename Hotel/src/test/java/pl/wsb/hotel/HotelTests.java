@@ -87,4 +87,101 @@ public class HotelTests {
     // then
     Assertions.assertThat(receivedNumberOfUnderageClients).isEqualTo(givenNumberOfClientsUnderage);
   }
+
+  @Test
+  public void newRoomShouldBeCreatedAndAdded() {
+    // given
+    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final double givenArea = 20;
+    final int givenFloor = 2;
+    final boolean givenHasKingSizeBed = true;
+    final String givenDescription = "given room description";
+
+    // when
+    final String receivedRoomId =
+        hotelUnderTests.addRoom(givenArea, givenFloor, givenHasKingSizeBed, givenDescription);
+    try {
+      final Room receivedRoom = hotelUnderTests.getRoom(receivedRoomId);
+
+      // then
+      Assertions.assertThat(receivedRoom.getArea()).isEqualTo(givenArea);
+      Assertions.assertThat(receivedRoom.getFloor()).isEqualTo(givenFloor);
+      Assertions.assertThat(receivedRoom.hasKingSizeBed()).isEqualTo(givenHasKingSizeBed);
+      Assertions.assertThat(receivedRoom.getDescription()).isEqualTo(givenDescription);
+    } catch (RoomNotFoundException exception) {
+      Assertions.fail("Room ID " + receivedRoomId + " not found", exception);
+    }
+  }
+
+  @Test
+  public void requestingNonexistentRoomIdShouldThrowRoomNotFoundException() {
+    // given
+    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    String nonexistentRoomId = "nonexistentRoomId";
+
+    // when
+    Throwable thrown =
+        Assertions.catchThrowable(() -> { hotelUnderTests.getRoom(nonexistentRoomId); });
+
+    // then
+    Assertions.assertThat(thrown).isInstanceOf(RoomNotFoundException.class);
+  }
+
+  @Test
+  public void roomAreaShouldBeProperlyReturned() {
+    // given
+    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final double givenArea = 20;
+    final int givenFloor = 2;
+    final boolean givenHasKingSizeBed = true;
+    final String givenDescription = "given room description";
+
+    // when
+    final String receivedRoomId =
+        hotelUnderTests.addRoom(givenArea, givenFloor, givenHasKingSizeBed, givenDescription);
+    try {
+      final double receivedRoomArea = hotelUnderTests.getRoomArea(receivedRoomId);
+      final Room receivedRoom = hotelUnderTests.getRoom(receivedRoomId);
+
+      // then
+      Assertions.assertThat(receivedRoomArea).isEqualTo(receivedRoom.getArea());
+    } catch (RoomNotFoundException exception) {
+      Assertions.fail("Room ID " + receivedRoomId + " not found", exception);
+    }
+  }
+
+  @Test
+  public void numberOfRoomsWithKingSizeBedAtFloorShouldBeProperlyReturned() {
+    // given
+    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final double givenArea = 20;
+    final int givenNumberOfRoomsWithoutKingSizeBedAtFloor1 = 2;
+    for (int i = 0; i < givenNumberOfRoomsWithoutKingSizeBedAtFloor1; i++) {
+      hotelUnderTests.addRoom(givenArea, 1, false, "At floor 1 without king size bed");
+    }
+    final int givenNumberOfRoomsWithKingSizeBedAtFloor1 = 7;
+    for (int i = 0; i < givenNumberOfRoomsWithKingSizeBedAtFloor1; i++) {
+      hotelUnderTests.addRoom(givenArea, 1, true, "At floor 1 with king size bed");
+    }
+    final int givenNumberOfRoomsWithoutKingSizeBedAtFloor2 = 5;
+    for (int i = 0; i < givenNumberOfRoomsWithoutKingSizeBedAtFloor2; i++) {
+      hotelUnderTests.addRoom(givenArea, 2, false, "At floor 2 without king size bed");
+    }
+    final int givenNumberOfRoomsWithKingSizeBedAtFloor2 = 4;
+    for (int i = 0; i < givenNumberOfRoomsWithKingSizeBedAtFloor2; i++) {
+      hotelUnderTests.addRoom(givenArea, 2, true, "At floor 2 with king size bed");
+    }
+
+    // when
+    final int receivedNumberOfRoomsWithKingSizeBedAtFloor1 =
+        hotelUnderTests.getNumberOfRoomsWithKingSizeBed(1);
+    final int receivedNumberOfRoomsWithKingSizeBedAtFloor2 =
+        hotelUnderTests.getNumberOfRoomsWithKingSizeBed(2);
+
+    // then
+    Assertions.assertThat(receivedNumberOfRoomsWithKingSizeBedAtFloor1)
+        .isEqualTo(givenNumberOfRoomsWithKingSizeBedAtFloor1);
+    Assertions.assertThat(receivedNumberOfRoomsWithKingSizeBedAtFloor2)
+        .isEqualTo(givenNumberOfRoomsWithKingSizeBedAtFloor2);
+  }
 }

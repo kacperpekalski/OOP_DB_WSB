@@ -87,7 +87,7 @@ Diagram:
 - [ ] Implementacja unit testów metod `class Hotel` z użyciem podejścia *given, when, then*.
   - [x] Implementacja metod `interface HotelCapability` związanych z `Client`
   - [ ] Implementacja dodatkowych metod związanych z `Client`
-  - [ ] Implementacja metod `interface HotelCapability` związanych z `Room`
+  - [x] Implementacja metod `interface HotelCapability` związanych z `Room`
   - [ ] Implementacja dodatkowych metod związanych z `Room`
   - [ ] Implementacja metod `interface HotelCapability` związanych z `Reservation`
   - [ ] Implementacja dodatkowych metod związanych z `Reservation`
