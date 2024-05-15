@@ -184,4 +184,72 @@ public class HotelTests {
     Assertions.assertThat(receivedNumberOfRoomsWithKingSizeBedAtFloor2)
         .isEqualTo(givenNumberOfRoomsWithKingSizeBedAtFloor2);
   }
+
+  @Test
+  public void NewReservationShouldBeCreated() {
+    // given
+    final String firstName = "Jan";
+    final String lastName = "Kowalski";
+    final LocalDate birtDay = LocalDate.of(1993, 4, 12);
+    final double roomArea = 22.5;
+    final int roomFloor = 2;
+    final boolean hasKingSizedBed = false;
+    final String roomDescription = "Description for tested room";
+    final int expectedUnconfirmedReservation = 1;
+    LocalDate date = LocalDate.now();
+    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    String hotelClientId = hotelUnderTests.addClient(firstName, lastName, birtDay);
+    String hotelRoomId = hotelUnderTests.addRoom(roomArea, roomFloor, hasKingSizedBed, roomDescription);
+
+    //when
+    try {
+      hotelUnderTests.addNewReservation(hotelClientId, hotelRoomId, date);
+      int unconfirmedReservation = hotelUnderTests.getNumberOfUnconfirmedReservation(date);
+
+
+      // then
+      Assertions.assertThat(unconfirmedReservation).isEqualTo(expectedUnconfirmedReservation);
+    } catch (RoomNotFoundException exception) {
+      Assertions.fail("Room ID " + hotelRoomId + " not found", exception);
+    } catch (ClientNotFoundException exception) {
+      Assertions.fail("Client ID " + hotelClientId + " not found", exception);
+    }
+
+  }
+
+  @Test
+  public void RoomReservationShouldbeConfirmed() {
+    //given
+    final String firstName = "Jan";
+    final String lastName = "Kowalski";
+    final LocalDate birtDay = LocalDate.of(1993, 4, 12);
+    final double roomArea = 22.5;
+    final int roomFloor = 2;
+    final boolean hasKingSizedBed = false;
+    final String roomDescription = "Description for tested room";
+
+
+    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    String hotelClientId = hotelUnderTests.addClient(firstName, lastName, birtDay);
+    String hotelRoomId = hotelUnderTests.addRoom(roomArea, roomFloor, hasKingSizedBed, roomDescription);
+
+    //when
+    try {
+
+      String hotelRoomReservationId =hotelUnderTests.addNewReservation(hotelClientId, hotelRoomId, LocalDate.of(2024,4,4));
+      hotelUnderTests.confirmReservation(hotelRoomReservationId);
+      Collection<String> receivedRoomId = hotelUnderTests.getRoomIdsReservedByClient(hotelClientId);
+      String receivedFirstRoomId = receivedRoomId.iterator().next();
+      //then
+
+      Assertions.assertThat(hotelRoomId).isEqualTo(receivedFirstRoomId);
+    }catch (RoomNotFoundException exception) {
+      Assertions.fail("Room ID " + hotelRoomId + " not found", exception);
+    } catch (ClientNotFoundException exception) {
+      Assertions.fail("Client ID " + hotelClientId + " not found", exception);
+    } catch (ReservationNotFoundException exception) {
+      Assertions.fail("Client ID " + hotelClientId + " not found", exception);
+    }
+
+  }
 }
