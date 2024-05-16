@@ -202,7 +202,7 @@ public class Hotel implements HotelCapability {
   @Override
   public boolean isRoomReserved(String roomId, LocalDate date) throws RoomNotFoundException {
     for (RoomReservation existingReservation : getReservations().values()) {
-      if ((existingReservation.getDate() == date)
+      if ((existingReservation.getDate().isEqual(date))
           && (existingReservation.getRoom().getId() == roomId)) {
         return true;
       }
@@ -252,7 +252,7 @@ public class Hotel implements HotelCapability {
   public int getNumberOfUnconfirmedReservation(LocalDate date) {
     int numberOfUnconfirmedReservationsOnDate = 0;
     for (RoomReservation existingReservation : getReservations().values()) {
-      if ((existingReservation.getDate() == date) && !existingReservation.isConfirmed()) {
+      if ((existingReservation.getDate().isEqual(date)) && !existingReservation.isConfirmed()) {
         numberOfUnconfirmedReservationsOnDate++;
       }
     }
