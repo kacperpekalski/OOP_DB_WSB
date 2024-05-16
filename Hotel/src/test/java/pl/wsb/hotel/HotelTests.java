@@ -1,18 +1,24 @@
 package pl.wsb.hotel;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.wsb.hotel.client.Client;
 import pl.wsb.hotel.exceptions.ClientNotFoundException;
+import pl.wsb.hotel.exceptions.ReservationNotFoundException;
 import pl.wsb.hotel.exceptions.RoomNotFoundException;
+import pl.wsb.hotel.exceptions.RoomReservedException;
 import pl.wsb.hotel.room.Room;
+import pl.wsb.hotel.room.RoomReservation;
 
 public class HotelTests {
   @Test
   public void newClientShouldBeCreatedAndAdded() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final String givenClientFirstName = "Given";
     final String givenClientLastName = "Client";
     final LocalDate givenClientBirthDate = LocalDate.now().minusYears(84);
@@ -27,19 +33,19 @@ public class HotelTests {
       Assertions.assertThat(receivedClient.getFirstName()).isEqualTo(givenClientFirstName);
       Assertions.assertThat(receivedClient.getLastName()).isEqualTo(givenClientLastName);
       Assertions.assertThat(receivedClient.getBirthDate()).isEqualTo(givenClientBirthDate);
-    } catch (ClientNotFoundException exception) {
-      Assertions.fail("Client ID " + receivedClientId + " not found", exception);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
     }
   }
 
   @Test
   public void requestingNonexistentClientIdShouldThrowClientNotFoundException() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
-    String nonexistentClientId = "nonexistentClientId";
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String nonexistentClientId = "nonexistentClientId";
 
     // when
-    Throwable thrown =
+    final Throwable thrown =
         Assertions.catchThrowable(() -> { hotelUnderTests.getClient(nonexistentClientId); });
 
     // then
@@ -49,7 +55,7 @@ public class HotelTests {
   @Test
   public void clientFullNameShouldBeProperlyReturned() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final String givenClientFirstName = "Given";
     final String givenClientLastName = "Client";
     final LocalDate givenClientBirthDate = LocalDate.now().minusYears(84);
@@ -63,15 +69,15 @@ public class HotelTests {
 
       // then
       Assertions.assertThat(receivedFullName).isEqualTo(receivedClient.getFullName());
-    } catch (ClientNotFoundException exception) {
-      Assertions.fail("Client ID " + receivedClientId + " not found", exception);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
     }
   }
 
   @Test
   public void numberOfUnderageClientsShouldBeProperlyCalculated() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final int givenNumberOfClientsUnderage = 3;
     for (int i = 0; i < givenNumberOfClientsUnderage; i++) {
       hotelUnderTests.addClient("Underage", Integer.toString(i), LocalDate.now().minusYears(17));
@@ -91,7 +97,7 @@ public class HotelTests {
   @Test
   public void newRoomShouldBeCreatedAndAdded() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final double givenArea = 20;
     final int givenFloor = 2;
     final boolean givenHasKingSizeBed = true;
@@ -108,19 +114,19 @@ public class HotelTests {
       Assertions.assertThat(receivedRoom.getFloor()).isEqualTo(givenFloor);
       Assertions.assertThat(receivedRoom.hasKingSizeBed()).isEqualTo(givenHasKingSizeBed);
       Assertions.assertThat(receivedRoom.getDescription()).isEqualTo(givenDescription);
-    } catch (RoomNotFoundException exception) {
-      Assertions.fail("Room ID " + receivedRoomId + " not found", exception);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
     }
   }
 
   @Test
   public void requestingNonexistentRoomIdShouldThrowRoomNotFoundException() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
-    String nonexistentRoomId = "nonexistentRoomId";
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String nonexistentRoomId = "nonexistentRoomId";
 
     // when
-    Throwable thrown =
+    final Throwable thrown =
         Assertions.catchThrowable(() -> { hotelUnderTests.getRoom(nonexistentRoomId); });
 
     // then
@@ -130,7 +136,7 @@ public class HotelTests {
   @Test
   public void roomAreaShouldBeProperlyReturned() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final double givenArea = 20;
     final int givenFloor = 2;
     final boolean givenHasKingSizeBed = true;
@@ -145,15 +151,15 @@ public class HotelTests {
 
       // then
       Assertions.assertThat(receivedRoomArea).isEqualTo(receivedRoom.getArea());
-    } catch (RoomNotFoundException exception) {
-      Assertions.fail("Room ID " + receivedRoomId + " not found", exception);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
     }
   }
 
   @Test
   public void numberOfRoomsWithKingSizeBedAtFloorShouldBeProperlyReturned() {
     // given
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final double givenArea = 20;
     final int givenNumberOfRoomsWithoutKingSizeBedAtFloor1 = 2;
     for (int i = 0; i < givenNumberOfRoomsWithoutKingSizeBedAtFloor1; i++) {
@@ -186,71 +192,416 @@ public class HotelTests {
   }
 
   @Test
-  public void NewReservationShouldBeCreated() {
+  public void newReservationShouldBeCreatedAndAdded() {
     // given
-    final String givenFirstName = "Jan";
-    final String givenLastName = "Kowalski";
-    final LocalDate givenBirthDay = LocalDate.of(1993, 4, 12);
-    final double givenRoomArea = 22.5;
-    final int givenRoomFloor = 2;
-    final boolean givenHasKingSizedBed = false;
-    final String givenRoomDescription = "Description for tested room";
-    final LocalDate givenDate = LocalDate.now();
-    
-    final int expectedUnconfirmedReservation = 1;
-    
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
-    String hotelClientIdUnderTests = hotelUnderTests.addClient(givenFirstName, givenLastName, givenBirthDay);
-    String hotelRoomIdUnderTests = hotelUnderTests.addRoom(givenRoomArea, givenRoomFloor, givenHasKingSizedBed, givenRoomDescription);
-
-    //when
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientId =
+        hotelUnderTests.addClient("Given", "Client", LocalDate.now().minusYears(20));
+    Client givenClient = null;
     try {
-      hotelUnderTests.addNewReservation(hotelClientIdUnderTests, hotelRoomIdUnderTests, givenDate);
-      int receivedUnconfirmedReservation = hotelUnderTests.getNumberOfUnconfirmedReservation(givenDate);
+      givenClient = hotelUnderTests.getClient(givenClientId);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    final String givenRoomId = hotelUnderTests.addRoom(1, 2, false, "Given room");
+    Room givenRoom = null;
+    try {
+      givenRoom = hotelUnderTests.getRoom(givenRoomId);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    final LocalDate givenReservationDate = LocalDate.now();
+    final boolean givenReservationIsConfirmed = false;
 
-
-      // then
-      Assertions.assertThat(receivedUnconfirmedReservation).isEqualTo(expectedUnconfirmedReservation);
-    } catch (RoomNotFoundException exception) {
-      Assertions.fail("Room ID " + hotelRoomIdUnderTests + " not found", exception);
-    } catch (ClientNotFoundException exception) {
-      Assertions.fail("Client ID " + hotelClientIdUnderTests + " not found", exception);
+    // when
+    String receivedReservationId = null;
+    try {
+      receivedReservationId =
+          hotelUnderTests.addNewReservation(givenClientId, givenRoomId, givenReservationDate);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
     }
 
+    RoomReservation receivedReservation = null;
+    try {
+      receivedReservation = hotelUnderTests.getReservation(receivedReservationId);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    final Client receivedClient = receivedReservation.getClient();
+    final Room receivedRoom = receivedReservation.getRoom();
+    final LocalDate receivedReservationDate = receivedReservation.getDate();
+    final boolean receivedReservationIsConfirmed = receivedReservation.isConfirmed();
+
+    // then
+    Assertions.assertThat(receivedClient).isEqualTo(givenClient);
+    Assertions.assertThat(receivedRoom).isEqualTo(givenRoom);
+    Assertions.assertThat(receivedReservationDate).isEqualTo(givenReservationDate);
+    Assertions.assertThat(receivedReservationIsConfirmed).isEqualTo(givenReservationIsConfirmed);
   }
 
   @Test
-  public void RoomReservationShouldbeConfirmed() {
-    //given
-    final String givenFirstName = "Jan";
-    final String givenLastName = "Kowalski";
-    final LocalDate givenBirthDay = LocalDate.of(1993, 4, 12);
-    final double givenRoomArea = 22.5;
-    final int givenRoomFloor = 2;
-    final boolean givenHasKingSizedBed = false;
-    final String givenRoomDescription = "Description for tested room";
-    final LocalDate givenDate = LocalDate.now();
+  public void newReservationWithNonexistentIdsPassedShouldThrowNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientIdNonexistent = "nonexistentClientId";
+    final String givenClientIdExistent =
+        hotelUnderTests.addClient("Given", "Client", LocalDate.now().minusYears(88));
+    final String givenRoomIdNonexistent = "nonexistentRoomId";
+    final String givenRoomIdExistent = hotelUnderTests.addRoom(7.7, 2, true, "Given room");
+    final LocalDate givenReservationDate = LocalDate.now();
 
+    // when
+    final Throwable receivedClientIdNonexistentException = Assertions.catchThrowable(() -> {
+      hotelUnderTests.addNewReservation(
+          givenClientIdNonexistent, givenRoomIdExistent, givenReservationDate);
+    });
+    final Throwable receivedRoomIdNonexistentException = Assertions.catchThrowable(() -> {
+      hotelUnderTests.addNewReservation(
+          givenClientIdExistent, givenRoomIdNonexistent, givenReservationDate);
+    });
 
-    Hotel hotelUnderTests = new Hotel("Hotel under tests");
-    String hotelClientIdUnderTests = hotelUnderTests.addClient(givenFirstName, givenLastName, givenBirthDay);
-    String hotelRoomIdUnderTests = hotelUnderTests.addRoom(givenRoomArea, givenRoomFloor, givenHasKingSizedBed, givenRoomDescription);
+    // then
+    Assertions.assertThat(receivedClientIdNonexistentException)
+        .isInstanceOf(ClientNotFoundException.class);
+    Assertions.assertThat(receivedRoomIdNonexistentException)
+        .isInstanceOf(RoomNotFoundException.class);
+  }
 
-    //when
+  @Test
+  public void newReservationForRoomAlreadyReservedOnDateShouldThrowRoomReservedException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientId =
+        hotelUnderTests.addClient("Client", "0", LocalDate.now().minusYears(77));
+    final String givenRoomIdExpected = hotelUnderTests.addRoom(7.7, 2, true, "Expected room");
+    final String givenRoomIdUnexpected = hotelUnderTests.addRoom(8.8, 3, false, "Unexpected room");
+    final LocalDate givenReservationDateExpected = LocalDate.now();
+    final LocalDate givenReservationDateUnexpected = givenReservationDateExpected.plusDays(1);
+
     try {
-
-      String receivedHotelRoomReservationId = hotelUnderTests.addNewReservation(hotelClientIdUnderTests, hotelRoomIdUnderTests, givenDate);
-      hotelUnderTests.confirmReservation(receivedHotelRoomReservationId);
-      Collection<String> receivedRoomId = hotelUnderTests.getRoomIdsReservedByClient(hotelClientIdUnderTests);
-      String receivedFirstRoomId = receivedRoomId.iterator().next();
-      //then
-
-      Assertions.assertThat(hotelRoomIdUnderTests).isEqualTo(receivedFirstRoomId);
-    }catch (RoomNotFoundException exception) {
-      Assertions.fail("Room ID " + hotelRoomIdUnderTests + " not found", exception);
-    } catch (ClientNotFoundException exception) {
-      Assertions.fail("Client ID " + hotelClientIdUnderTests + " not found", exception);
+      hotelUnderTests.addNewReservation(
+          givenClientId, givenRoomIdExpected, givenReservationDateExpected);
+      hotelUnderTests.addNewReservation(
+          givenClientId, givenRoomIdUnexpected, givenReservationDateUnexpected);
+    } catch (Exception exception) {
+      Assertions.fail(
+          "Exception thrown when adding a new reservation for the test setup", exception);
     }
 
+    // when
+    final Throwable receivedReservationOnSameRoomAndSameDateException =
+        Assertions.catchThrowable(() -> {
+          hotelUnderTests.addNewReservation(
+              givenClientId, givenRoomIdExpected, givenReservationDateExpected);
+        });
+    final Throwable receivedReservationOnSameRoomAndDifferentDateException =
+        Assertions.catchThrowable(() -> {
+          hotelUnderTests.addNewReservation(
+              givenClientId, givenRoomIdExpected, givenReservationDateUnexpected);
+        });
+    final Throwable receivedReservationOnDifferentRoomAndSameDateException =
+        Assertions.catchThrowable(() -> {
+          hotelUnderTests.addNewReservation(
+              givenClientId, givenRoomIdUnexpected, givenReservationDateExpected);
+        });
+
+    // then
+    Assertions.assertThat(receivedReservationOnSameRoomAndSameDateException)
+        .isInstanceOf(RoomReservedException.class);
+    Assertions.assertThat(receivedReservationOnSameRoomAndDifferentDateException).isEqualTo(null);
+    Assertions.assertThat(receivedReservationOnDifferentRoomAndSameDateException).isEqualTo(null);
+  }
+
+  @Test
+  public void reservationShouldBeConfirmedIfRequested() {
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientId =
+        hotelUnderTests.addClient("Given", "Client", LocalDate.now().minusYears(20));
+    final String givenRoomId = hotelUnderTests.addRoom(1, 2, false, "Given room");
+    final LocalDate givenReservationDate = LocalDate.now();
+    final boolean givenReservationIsConfirmed = true;
+    String givenReservationId = null;
+    try {
+      givenReservationId =
+          hotelUnderTests.addNewReservation(givenClientId, givenRoomId, givenReservationDate);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+
+    // when
+    try {
+      hotelUnderTests.confirmReservation(givenReservationId);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+
+    RoomReservation receivedReservation = null;
+    try {
+      receivedReservation = hotelUnderTests.getReservation(givenReservationId);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    final boolean receivedReservationIsConfirmed = receivedReservation.isConfirmed();
+
+    // then
+    Assertions.assertThat(receivedReservationIsConfirmed).isEqualTo(givenReservationIsConfirmed);
+  }
+
+  @Test
+  public void confirmingNonexistentReservationShouldThrowReservationNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenNonexistentReservationId = "nonexistentReservationId";
+
+    // when
+    final Throwable receivedNonexistentReservationIdException = Assertions.catchThrowable(
+        () -> { hotelUnderTests.confirmReservation(givenNonexistentReservationId); });
+
+    // then
+    Assertions.assertThat(receivedNonexistentReservationIdException)
+        .isInstanceOf(ReservationNotFoundException.class);
+  }
+
+  @Test
+  public void roomShouldBeReservedOnlyIfReservationOnDateAndRoomExists() {
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientId =
+        hotelUnderTests.addClient("Given", "Client", LocalDate.now().minusYears(20));
+    final String givenRoomIdExpected = hotelUnderTests.addRoom(1, 2, false, "Expected");
+    final String givenRoomIdUnexpected = hotelUnderTests.addRoom(1, 2, false, "Unexpected");
+    final LocalDate givenReservationDateExpected = LocalDate.now();
+    final LocalDate givenReservationDateUnexpected = givenReservationDateExpected.minusDays(1);
+    // add a reservation for the expected date and the expected room (for date check verification)
+    try {
+      hotelUnderTests.addNewReservation(
+          givenClientId, givenRoomIdExpected, givenReservationDateExpected);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    // add a reservation for the expected date and the unexpected room (for room check verification)
+    try {
+      hotelUnderTests.addNewReservation(
+          givenClientId, givenRoomIdUnexpected, givenReservationDateExpected);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    boolean givenIsRoomReservedOnDateExpected = true;
+    boolean givenIsRoomReservedOnDateUnexpected = false;
+
+    // when
+    boolean receivedIsRoomReservedOnDateExpected = !givenIsRoomReservedOnDateExpected;
+    try {
+      receivedIsRoomReservedOnDateExpected =
+          hotelUnderTests.isRoomReserved(givenRoomIdExpected, givenReservationDateExpected);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    boolean receivedIsRoomReservedOnDateUnexpected = !givenIsRoomReservedOnDateUnexpected;
+    try {
+      receivedIsRoomReservedOnDateUnexpected =
+          hotelUnderTests.isRoomReserved(givenRoomIdExpected, givenReservationDateUnexpected);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+
+    // then
+    Assertions.assertThat(receivedIsRoomReservedOnDateExpected)
+        .isEqualTo(givenIsRoomReservedOnDateExpected);
+    Assertions.assertThat(receivedIsRoomReservedOnDateUnexpected)
+        .isEqualTo(givenIsRoomReservedOnDateUnexpected);
+  }
+
+  @Test
+  public void checkingIfNonexistentRoomIsReservedShouldThrowRoomNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenNonexistentRoomId = "nonexistentRoomId";
+
+    // when
+    final Throwable receivedNonexistentReservationIdException = Assertions.catchThrowable(
+        () -> { hotelUnderTests.isRoomReserved(givenNonexistentRoomId, LocalDate.now()); });
+
+    // then
+    Assertions.assertThat(receivedNonexistentReservationIdException)
+        .isInstanceOf(RoomNotFoundException.class);
+  }
+
+  @Test
+  public void numberOfUnconfirmedReservationsOnDateShouldBeProperlyReturned() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final LocalDate givenExpectedUnconfirmedReservationDate = LocalDate.now();
+    final LocalDate givenUnexpectedUnconfirmedReservationDate = LocalDate.now().minusDays(1);
+    final int givenUnconfirmedReservationsCountOnExpectedDate = 2;
+    final int givenUnconfirmedReservationsCountOnUnexpectedDate = 3;
+    final int givenConfirmedReservationsCountOnExpectedDate = 5;
+    final int givenTotalUnconfirmedReservationsCount =
+        givenUnconfirmedReservationsCountOnExpectedDate
+        + givenUnconfirmedReservationsCountOnUnexpectedDate;
+    final int givenTotalReservationsCount =
+        givenTotalUnconfirmedReservationsCount + givenConfirmedReservationsCountOnExpectedDate;
+
+    // create given clients for the reservations
+    final List<String> givenClientIds = new ArrayList<String>();
+    for (int i = 0; i < givenTotalReservationsCount; i++) {
+      givenClientIds.add(
+          hotelUnderTests.addClient("Client", Integer.toString(i), LocalDate.now().minusYears(i)));
+    }
+    // create given rooms for the reservations
+    final List<String> givenRoomIds = new ArrayList<String>();
+    for (int i = 0; i < givenTotalReservationsCount; i++) {
+      givenRoomIds.add(hotelUnderTests.addRoom(i, i, false, "Room"));
+    }
+
+    // create given reservations
+    // keep a rolling count of created reservations outside loops' scope
+    int receivedTotalReservationsCount = 0;
+    // create unconfirmed reservations on the expected date (for confirmation check verification)
+    for (int i = 0; i < givenUnconfirmedReservationsCountOnExpectedDate; i++) {
+      final String clientId = givenClientIds.get(receivedTotalReservationsCount);
+      final String roomId = givenRoomIds.get(receivedTotalReservationsCount);
+      final LocalDate date = givenExpectedUnconfirmedReservationDate;
+      try {
+        hotelUnderTests.addNewReservation(clientId, roomId, date);
+      } catch (Exception exception) {
+        Assertions.fail("Unexpected exception thrown", exception);
+      }
+      receivedTotalReservationsCount++;
+    }
+    // sanity check due to the complexity of the test setup
+    Assertions.assertThat(receivedTotalReservationsCount)
+        .isEqualTo(givenUnconfirmedReservationsCountOnExpectedDate);
+    // create unconfirmed reservations on the unexpected date (for date check verification)
+    for (int i = 0; i < givenUnconfirmedReservationsCountOnUnexpectedDate; i++) {
+      final String clientId = givenClientIds.get(receivedTotalReservationsCount);
+      final String roomId = givenRoomIds.get(receivedTotalReservationsCount);
+      final LocalDate date = givenUnexpectedUnconfirmedReservationDate;
+      try {
+        hotelUnderTests.addNewReservation(clientId, roomId, date);
+      } catch (Exception exception) {
+        Assertions.fail("Unexpected exception thrown", exception);
+      }
+      receivedTotalReservationsCount++;
+    }
+    // sanity check
+    Assertions.assertThat(receivedTotalReservationsCount)
+        .isEqualTo(givenTotalUnconfirmedReservationsCount);
+    // create confirmed reservations on the expected date (for confirmation check verification)
+    for (int i = 0; i < givenConfirmedReservationsCountOnExpectedDate; i++) {
+      String roomReservationId = null;
+      final String clientId = givenClientIds.get(receivedTotalReservationsCount);
+      final String roomId = givenRoomIds.get(receivedTotalReservationsCount);
+      // `[...]Unconfirmed[...]` - not a typo, the date has to be the same
+      final LocalDate date = givenExpectedUnconfirmedReservationDate;
+      try {
+        roomReservationId = hotelUnderTests.addNewReservation(clientId, roomId, date);
+      } catch (Exception exception) {
+        Assertions.fail("Unexpected exception thrown", exception);
+      }
+      try {
+        hotelUnderTests.confirmReservation(roomReservationId);
+      } catch (Exception exception) {
+        Assertions.fail("Unexpected exception thrown", exception);
+      }
+      receivedTotalReservationsCount++;
+    }
+    // sanity check
+    Assertions.assertThat(receivedTotalReservationsCount).isEqualTo(givenTotalReservationsCount);
+
+    // when
+    int receivedUnconfirmedReservationsOnExpectedDate =
+        hotelUnderTests.getNumberOfUnconfirmedReservation(givenExpectedUnconfirmedReservationDate);
+
+    // then
+    Assertions.assertThat(receivedUnconfirmedReservationsOnExpectedDate)
+        .isEqualTo(givenUnconfirmedReservationsCountOnExpectedDate);
+  }
+
+  @Test
+  public void roomIdsEverReservedByClientShouldBeReturnedProperly() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientIdExpected =
+        hotelUnderTests.addClient("Client", "Expected", LocalDate.now().minusYears(21));
+    final String givenClientIdUnexpected =
+        hotelUnderTests.addClient("Client", "Unexpected", LocalDate.now().minusYears(37));
+    final LocalDate givenReservationDate = LocalDate.now();
+    final int givenClientExpectedReservationsCount = 2;
+    final int givenClientUnexpectedReservationsCount = 5;
+    final int givenTotalClientReservationCount =
+        givenClientExpectedReservationsCount + givenClientUnexpectedReservationsCount;
+
+    // create given rooms for the reservations
+    final List<String> givenRoomIds = new ArrayList<String>();
+    for (int i = 0; i < givenTotalClientReservationCount; i++) {
+      givenRoomIds.add(hotelUnderTests.addRoom(i, i, false, "Room"));
+    }
+
+    // create given reservations
+    // keep a rolling count of created reservations outside loops' scope
+    int receivedTotalReservationsCount = 0;
+    // create reservations for the expected client (for client check validation)
+    // keep the expected room IDs
+    List<String> givenClientExpectedRoomIds = new ArrayList<String>();
+    for (int i = 0; i < givenClientExpectedReservationsCount; i++) {
+      final String roomId = givenRoomIds.get(receivedTotalReservationsCount);
+      final LocalDate reservationDate =
+          givenReservationDate.minusDays(receivedTotalReservationsCount);
+      try {
+        hotelUnderTests.addNewReservation(givenClientIdExpected, roomId, reservationDate);
+      } catch (Exception exception) {
+        Assertions.fail("Unexpected exception thrown", exception);
+      }
+      givenClientExpectedRoomIds.add(roomId);
+      receivedTotalReservationsCount++;
+    }
+    // sanity check
+    Assertions.assertThat(receivedTotalReservationsCount)
+        .isEqualTo(givenClientExpectedReservationsCount);
+    // create reservations for the unexpected client (for client check validation)
+    for (int i = 0; i < givenClientUnexpectedReservationsCount; i++) {
+      final String roomId = givenRoomIds.get(receivedTotalReservationsCount);
+      final LocalDate reservationDate =
+          givenReservationDate.minusDays(receivedTotalReservationsCount);
+      try {
+        hotelUnderTests.addNewReservation(givenClientIdUnexpected, roomId, reservationDate);
+      } catch (Exception exception) {
+        Assertions.fail("Unexpected exception thrown", exception);
+      }
+      receivedTotalReservationsCount++;
+    }
+    // sanity check
+    Assertions.assertThat(receivedTotalReservationsCount)
+        .isEqualTo(givenTotalClientReservationCount);
+
+    // when
+    try {
+      Collection<String> receivedClientExpectedReservationIds =
+          hotelUnderTests.getRoomIdsReservedByClient(givenClientIdExpected);
+
+      // then
+      Assertions.assertThat(receivedClientExpectedReservationIds)
+          .containsAll(givenClientExpectedRoomIds);
+      Assertions.assertThat(receivedClientExpectedReservationIds)
+          .containsOnlyElementsOf(givenClientExpectedRoomIds);
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+  }
+
+  @Test
+  public void checkingRoomIdsReservedByNonexistentClientShouldThrowClientNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenNonexistentClientId = "nonexistentClientId";
+
+    // when
+    final Throwable receivedNonexistentReservationIdException = Assertions.catchThrowable(
+        () -> { hotelUnderTests.getRoomIdsReservedByClient(givenNonexistentClientId); });
+
+    // then
+    Assertions.assertThat(receivedNonexistentReservationIdException)
+        .isInstanceOf(ClientNotFoundException.class);
   }
 }
