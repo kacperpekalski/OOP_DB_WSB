@@ -206,15 +206,15 @@ public class HotelTests {
     //when
     try {
       hotelUnderTests.addNewReservation(hotelClientIdUnderTests, hotelRoomIdUnderTests, givenDate);
-      int recivedUnconfirmedReservation = hotelUnderTests.getNumberOfUnconfirmedReservation(givenDate);
+      int receivedUnconfirmedReservation = hotelUnderTests.getNumberOfUnconfirmedReservation(givenDate);
 
 
       // then
-      Assertions.assertThat(recivedUnconfirmedReservation).isEqualTo(expectedUnconfirmedReservation);
+      Assertions.assertThat(receivedUnconfirmedReservation).isEqualTo(expectedUnconfirmedReservation);
     } catch (RoomNotFoundException exception) {
-      Assertions.fail("Room ID " + hotelRoomId + " not found", exception);
+      Assertions.fail("Room ID " + hotelRoomIdUnderTests + " not found", exception);
     } catch (ClientNotFoundException exception) {
-      Assertions.fail("Client ID " + hotelClientId + " not found", exception);
+      Assertions.fail("Client ID " + hotelClientIdUnderTests + " not found", exception);
     }
 
   }
@@ -239,19 +239,17 @@ public class HotelTests {
     //when
     try {
 
-      String recivedHotelRoomReservationId = hotelUnderTests.addNewReservation(hotelClientIdUnderTests, hotelRoomIdUnderTests, givenDate);
-      hotelUnderTests.confirmReservation(recivedHotelRoomReservationId);
+      String receivedHotelRoomReservationId = hotelUnderTests.addNewReservation(hotelClientIdUnderTests, hotelRoomIdUnderTests, givenDate);
+      hotelUnderTests.confirmReservation(receivedHotelRoomReservationId);
       Collection<String> receivedRoomId = hotelUnderTests.getRoomIdsReservedByClient(hotelClientIdUnderTests);
       String receivedFirstRoomId = receivedRoomId.iterator().next();
       //then
 
-      Assertions.assertThat(hotelRoomId).isEqualTo(receivedFirstRoomId);
+      Assertions.assertThat(hotelRoomIdUnderTests).isEqualTo(receivedFirstRoomId);
     }catch (RoomNotFoundException exception) {
-      Assertions.fail("Room ID " + hotelRoomId + " not found", exception);
+      Assertions.fail("Room ID " + hotelRoomIdUnderTests + " not found", exception);
     } catch (ClientNotFoundException exception) {
-      Assertions.fail("Client ID " + hotelClientId + " not found", exception);
-    } catch (ReservationNotFoundException exception) {
-      Assertions.fail("Client ID " + hotelClientId + " not found", exception);
+      Assertions.fail("Client ID " + hotelClientIdUnderTests + " not found", exception);
     }
 
   }
