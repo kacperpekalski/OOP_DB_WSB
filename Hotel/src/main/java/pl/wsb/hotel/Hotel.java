@@ -201,6 +201,9 @@ public class Hotel implements HotelCapability {
 
   @Override
   public boolean isRoomReserved(String roomId, LocalDate date) throws RoomNotFoundException {
+    if (getRooms().get(roomId) == null) {
+      throw new RoomNotFoundException("Room ID " + roomId + " not found");
+    }
     for (RoomReservation existingReservation : getReservations().values()) {
       if ((existingReservation.getDate().isEqual(date))
           && (existingReservation.getRoom().getId() == roomId)) {
