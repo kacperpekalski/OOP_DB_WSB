@@ -93,16 +93,4 @@ public class Room {
   public void setDescription(String description) {
     this.description = description;
   }
-
-  public void prettyPrint() {
-    System.out.println("  instance       : " + toString());
-    System.out.println("  ID             : " + getId());
-    System.out.println("  price          : " + getArea());
-    System.out.println("  price          : " + getFloor());
-    System.out.println("  king size bed  : " + hasKingSizeBed());
-    System.out.println("  balcony        : " + hasBalcony());
-    System.out.println("  safe           : " + hasSafe());
-    System.out.println("  TV             : " + hasTv());
-    System.out.println("  description    : " + getDescription());
-  }
 }

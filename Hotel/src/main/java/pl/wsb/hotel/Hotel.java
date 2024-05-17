@@ -276,46 +276,4 @@ public class Hotel implements HotelCapability {
 
     return roomIds;
   }
-
-  public void prettyPrintSimple() {
-    System.out.println("Hotel:");
-    System.out.println("  instance               : " + toString());
-    System.out.println("  name                   : " + getName());
-    System.out.println("  special service count  : " + getSpecialServices().size());
-    System.out.println("  room count             : " + getRooms().size());
-    System.out.println("  client count           : " + getClients().size());
-    System.out.println("  reservation count      : " + getReservations().size());
-  }
-
-  public void prettyPrintComplex() {
-    prettyPrintSimple();
-
-    System.out.println();
-    System.out.println("Special services in hotel:");
-    getSpecialServices().forEach(serviceSpecial -> {
-      System.out.println();
-      serviceSpecial.prettyPrint();
-    });
-
-    System.out.println();
-    System.out.println("Rooms in hotel:");
-    getRooms().forEach((roomId, room) -> {
-      System.out.println();
-      room.prettyPrint();
-    });
-
-    System.out.println();
-    System.out.println("Clients in hotel:");
-    getClients().forEach((clientId, client) -> {
-      System.out.println();
-      client.prettyPrint();
-    });
-
-    System.out.println();
-    System.out.println("Reservations in hotel:");
-    getReservations().forEach((reservationId, reservation) -> {
-      System.out.println();
-      reservation.prettyPrint();
-    });
-  }
 }
