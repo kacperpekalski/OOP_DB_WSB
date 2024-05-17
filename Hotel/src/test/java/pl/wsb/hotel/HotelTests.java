@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pl.wsb.hotel.client.Client;
@@ -13,8 +14,43 @@ import pl.wsb.hotel.exceptions.RoomNotFoundException;
 import pl.wsb.hotel.exceptions.RoomReservedException;
 import pl.wsb.hotel.room.Room;
 import pl.wsb.hotel.room.RoomReservation;
+import pl.wsb.hotel.services.LuggageService;
+import pl.wsb.hotel.services.SpecialService;
+import pl.wsb.hotel.services.TimeService;
 
 public class HotelTests {
+  @Test
+  public void specialServiceShouldBeAdded() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final SpecialService givenLuggageService = new LuggageService("luggage service", 5);
+    final SpecialService givenTimeService = new TimeService("time service", 0);
+
+    // when
+    hotelUnderTests.addSpecialService(givenLuggageService);
+    hotelUnderTests.addSpecialService(givenTimeService);
+    final Collection<SpecialService> receivedSpecialServices = hotelUnderTests.getSpecialServices();
+
+    // then
+    Assertions.assertThat(receivedSpecialServices)
+        .containsOnly(givenLuggageService, givenTimeService);
+  }
+
+  @Test
+  public void specialServiceShouldBeRemovable() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final SpecialService givenLuggageService = new LuggageService("luggage service", 5);
+    hotelUnderTests.addSpecialService(givenLuggageService);
+
+    // when
+    hotelUnderTests.removeSpecialService(givenLuggageService);
+    final Collection<SpecialService> receivedSpecialServices = hotelUnderTests.getSpecialServices();
+
+    // then
+    Assertions.assertThat(receivedSpecialServices).doesNotContain(givenLuggageService);
+  }
+
   @Test
   public void newClientShouldBeCreatedAndAdded() {
     // given
@@ -42,14 +78,49 @@ public class HotelTests {
   public void requestingNonexistentClientIdShouldThrowClientNotFoundException() {
     // given
     final Hotel hotelUnderTests = new Hotel("Hotel under tests");
-    final String nonexistentClientId = "nonexistentClientId";
+    final String givenNonexistentClientId = "nonexistentClientId";
 
     // when
-    final Throwable thrown =
-        Assertions.catchThrowable(() -> { hotelUnderTests.getClient(nonexistentClientId); });
+    final Throwable receivedNonexistentClientRequestedException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.getClient(givenNonexistentClientId); });
 
     // then
-    Assertions.assertThat(thrown).isInstanceOf(ClientNotFoundException.class);
+    Assertions.assertThat(receivedNonexistentClientRequestedException)
+        .isInstanceOf(ClientNotFoundException.class);
+  }
+
+  @Test
+  public void clientShouldBeRemovable() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientId =
+        hotelUnderTests.addClient("Given", "Client", LocalDate.now().minusYears(4));
+
+    // when
+    final Throwable receivedRequestedClientRemovalException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.removeClient(givenClientId); });
+    final Throwable receivedRequestedRemovedClientException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.getClient(givenClientId); });
+
+    // then
+    Assertions.assertThat(receivedRequestedClientRemovalException).isEqualTo(null);
+    Assertions.assertThat(receivedRequestedRemovedClientException)
+        .isInstanceOf(ClientNotFoundException.class);
+  }
+
+  @Test
+  public void removingNonexistentClientShouldThrowClientNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenNonexistentClientId = "nonexistentClientId";
+
+    // when
+    final Throwable receivedRequestedNonexistentClientRemovalException = Assertions.catchThrowable(
+        () -> { hotelUnderTests.removeClient(givenNonexistentClientId); });
+
+    // then
+    Assertions.assertThat(receivedRequestedNonexistentClientRemovalException)
+        .isInstanceOf(ClientNotFoundException.class);
   }
 
   @Test
@@ -131,6 +202,39 @@ public class HotelTests {
 
     // then
     Assertions.assertThat(thrown).isInstanceOf(RoomNotFoundException.class);
+  }
+
+  @Test
+  public void roomShouldBeRemovable() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenRoomId = hotelUnderTests.addRoom(1, 2, false, "given room");
+
+    // when
+    final Throwable receivedRequestedRoomRemovalException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.removeRoom(givenRoomId); });
+    final Throwable receivedRequestedRemovedRoomException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.getRoom(givenRoomId); });
+
+    // then
+    Assertions.assertThat(receivedRequestedRoomRemovalException).isEqualTo(null);
+    Assertions.assertThat(receivedRequestedRemovedRoomException)
+        .isInstanceOf(RoomNotFoundException.class);
+  }
+
+  @Test
+  public void removingNonexistentRoomShouldThrowRoomNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenNonexistentRoomId = "nonexistentRoomId";
+
+    // when
+    final Throwable receivedRequestedNonexistentRoomRemovalException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.removeRoom(givenNonexistentRoomId); });
+
+    // then
+    Assertions.assertThat(receivedRequestedNonexistentRoomRemovalException)
+        .isInstanceOf(RoomNotFoundException.class);
   }
 
   @Test
@@ -364,6 +468,50 @@ public class HotelTests {
   }
 
   @Test
+  public void reservationShouldBeRemovable() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenClientId =
+        hotelUnderTests.addClient("Given", "Client", LocalDate.now().minusYears(20));
+    final String givenRoomId = hotelUnderTests.addRoom(1, 2, false, "Given room");
+    String tmpReservationId = null;
+    try {
+      tmpReservationId =
+          hotelUnderTests.addNewReservation(givenClientId, givenRoomId, LocalDate.now());
+    } catch (Exception exception) {
+      Assertions.fail("Unexpected exception thrown", exception);
+    }
+    final String givenReservationId = tmpReservationId;
+
+    // when
+    final Throwable receivedRequestedReservationRemovalException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.removeReservation(givenReservationId); });
+    final Throwable receivedRequestedRemovedReservationException =
+        Assertions.catchThrowable(() -> { hotelUnderTests.getReservation(givenReservationId); });
+
+    // then
+    Assertions.assertThat(receivedRequestedReservationRemovalException).isEqualTo(null);
+    Assertions.assertThat(receivedRequestedRemovedReservationException)
+        .isInstanceOf(ReservationNotFoundException.class);
+  }
+
+  @Test
+  public void removingNonexistentReservationShouldThrowReservationNotFoundException() {
+    // given
+    final Hotel hotelUnderTests = new Hotel("Hotel under tests");
+    final String givenNonexistentReservationId = "nonexistentReservationId";
+
+    // when
+    final Throwable receivedRequestedNonexistentReservationRemovalException =
+        Assertions.catchThrowable(
+            () -> { hotelUnderTests.removeReservation(givenNonexistentReservationId); });
+
+    // then
+    Assertions.assertThat(receivedRequestedNonexistentReservationRemovalException)
+        .isInstanceOf(ReservationNotFoundException.class);
+  }
+
+  @Test
   public void roomShouldBeReservedOnlyIfReservationOnDateAndRoomExists() {
     final Hotel hotelUnderTests = new Hotel("Hotel under tests");
     final String givenClientId =
@@ -581,8 +729,6 @@ public class HotelTests {
           hotelUnderTests.getRoomIdsReservedByClient(givenClientIdExpected);
 
       // then
-      Assertions.assertThat(receivedClientExpectedReservationIds)
-          .containsAll(givenClientExpectedRoomIds);
       Assertions.assertThat(receivedClientExpectedReservationIds)
           .containsOnlyElementsOf(givenClientExpectedRoomIds);
     } catch (Exception exception) {

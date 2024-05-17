@@ -36,10 +36,10 @@ Diagram:
 Diagram:
 ![Diagram](tasks/task3/diagram-3.png)
 
-- [ ] *poza poleceniem*: Dodanie narzędzi do statycznej analizy kodu.
-- [ ] *poza poleceniem*: Wykorzystanie `lombok`.
-  w celu zwiększenia czytelności i uniknięcia potencjalnych błędów potencjalnych błędów.
-- [ ] *poza poleceniem*: `*.prettyPrint*()` zmienić na `@Override .toString()`.
+- [ ] ~~*poza poleceniem*: Dodanie narzędzi do statycznej analizy kodu.~~
+- [ ] ~~*poza poleceniem*: Wykorzystanie `lombok`.
+  w celu zwiększenia czytelności i uniknięcia potencjalnych błędów potencjalnych błędów.~~
+- [ ] ~~*poza poleceniem*: `*.prettyPrint*()` zmienić na `@Override .toString()`.~~
 - [x] *poza poleceniem*: w `class Hotel` przechowywać dane w kolekcjach typu `key : value`,
   gdzie `key` to `id` dodawanego obiektu, najlepiej `add/get/remove` o `O(1)`,
   ułatwi to implementację logiki nowych metod z `interface HotelCapability`.
@@ -47,11 +47,11 @@ Diagram:
   - [x] clients
   - [x] roomReservations
 - [x] *poza poleceniem*: gettery do `Collection` powinny zwracać `Collections.unmodifiable*`
-- [ ] *poza poleceniem*: uniknąć rzucania unchecked wyjątków przy błędach argumentu wynikających
-  ze złej (nieznalezionej) wartości, a nie błędu krytycznego
-- [ ] *poza poleceniem*: dodać logi błędów w miejscach, gdzie występuje błąd bez wyjątku
-- [ ] *poza poleceniem*: zdecydować jak handlować i dodać `null` handling do argumentów
-  (szczególnie ID)
+- [ ] ~~*poza poleceniem*: uniknąć rzucania unchecked wyjątków przy błędach argumentu wynikających
+  ze złej (nieznalezionej) wartości, a nie błędu krytycznego~~
+- [ ] ~~*poza poleceniem*: dodać logi błędów w miejscach, gdzie występuje błąd bez wyjątku~~
+- [ ] ~~*poza poleceniem*: zdecydować jak handlować i dodać `null` handling do argumentów
+  (szczególnie ID)~~
 - [x] Dodanie (pliki jako załączniki w zadaniu) `class *Exception` do `pl.wsb.hotel.exceptions`.
   **Bez modyfikacji pliku (w tym pominięcie podczas formatowania)!**
 - [x] Dodanie (plik jako załącznik w zadaniu) `interface HotelCapability` do `pl.wsb.hotel`.
@@ -84,16 +84,16 @@ Diagram:
     zwraca kolekcję unikalnych (bez powtórzeń) `roomId` pokoi,
     które kiedykolwiek zostały zarezerwowane przez klienta o danym `clientId`.
 - [x] Dodanie dependency wymaganych do unit testów do `pom.xml`.
-- [ ] Implementacja unit testów metod `class Hotel` z użyciem podejścia *given, when, then*.
+- [x] Implementacja unit testów metod `class Hotel` z użyciem podejścia *given, when, then*.
   - [x] Implementacja metod `interface HotelCapability` związanych z `Client`
-  - [ ] Implementacja dodatkowych metod związanych z `Client`
+  - [x] Implementacja dodatkowych metod związanych z `Client`
   - [x] Implementacja metod `interface HotelCapability` związanych z `Room`
-  - [ ] Implementacja dodatkowych metod związanych z `Room`
-  - [ ] Implementacja metod `interface HotelCapability` związanych z `Reservation`
-  - [ ] Implementacja dodatkowych metod związanych z `Reservation`
-  - [ ] Implementacja dodatkowych metod związanych ze `SpecialService`
-- [ ] Implementacja unit testów pozostałych klas.
+  - [x] Implementacja dodatkowych metod związanych z `Room`
+  - [x] Implementacja metod `interface HotelCapability` związanych z `Reservation`
+  - [x] Implementacja dodatkowych metod związanych z `Reservation`
+  - [x] Implementacja dodatkowych metod związanych ze `SpecialService`
+- [x] Implementacja unit testów pozostałych klas.
   (zgodnie z zasadami dobrego unit testowania nie testuje się DTOs - dopytać).
-- [ ] Pokrycie testów minimum 75%.
-- [ ] Demo.
+- [x] Pokrycie testów minimum 75%.
+- [ ] ~~Demo.~~
 - [ ] Przesłanie zadania.
